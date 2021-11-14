@@ -15,7 +15,6 @@ public class SplashScreen extends AppCompatActivity {
 
             public void run() {
                 try {
-                    getSupportActionBar().hide(); //hide the title bar.
                     // sleep time in milliseconds
                     sleep(1500);
 
