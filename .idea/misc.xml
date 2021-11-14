@@ -3,8 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/jinga/AndroidStudioProjects/PocketControl/app/src/main/res/layout/activity_main.xml" value="0.2957427536231884" />
-        <entry key="..\:/Users/jinga/AndroidStudioProjects/PocketControl/app/src/main/res/layout/splash.xml" value="0.14285714285714285" />
+        <entry key="..\:/Users/jinga/AndroidStudioProjects/PocketControl/app/src/main/res/drawable/rectangle.xml" value="0.17478632478632478" />
+        <entry key="..\:/Users/jinga/AndroidStudioProjects/PocketControl/app/src/main/res/drawable/rounded_rectangle.xml" value="0.30128205128205127" />
+        <entry key="..\:/Users/jinga/AndroidStudioProjects/PocketControl/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/jinga/AndroidStudioProjects/PocketControl/app/src/main/res/layout/splash.xml" value="0.2" />
       </map>
     </option>
   </component>

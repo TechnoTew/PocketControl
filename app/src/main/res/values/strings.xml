@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">PocketControl</string>
+    <string name="welcomeText">Welcome Sally!</string>
+    <string name="appIcon">App Icon</string>
+    <string name="navButton1Text">Overview</string>
+    <string name="navButton2Text">Add Spendings</string>
+    <string name="navButton3Text">Budgeting</string>
+
 </resources>
