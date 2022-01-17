@@ -1,14 +1,84 @@
 package com.example.pocketcontrol;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
+
+    EditText nameField;
+    DatabaseHandler db;
+    SharedPreferenceHandler sph;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // setup shared preference and database handler
+        db = new DatabaseHandler(this);
+        sph = new SharedPreferenceHandler(getApplicationContext());
+        // Use this whenever you wish to reset the first setup process
+        sph.setSetupStatus(false);
+
+        Boolean setupStatus = sph.getSetupStatus();
+
+        if (setupStatus) {
+            // log the details for reference
+            Log.d("User Name", sph.getUserName());
+            Log.d("User Theme", sph.getTheme());
+
+            // set theme of application
+
+            // already setup, redirect to main page
+            Intent i = new Intent(this, HomeActivity.class);
+            startActivity(i);
+        }
+
+
+        /* uncomment should u need to replace all the categories with default
+        db.wipeAllCategories();
+        db.addCategory(new Category("Food"));
+        db.addCategory(new Category("Misc"));
+        db.addCategory(new Category("Entertainment"));
+        */
+
+        ArrayList<Category> categories = db.getAllCategories();
+
+        Log.d("", "All Categories: ");
+        for (Category category : categories) {
+            Log.d("", category.getCategoryName());
+        }
+    }
+
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.resetButton:
+                nameField = (EditText) findViewById(R.id.nameEditBox);
+                nameField.setText("");
+                break;
+            case R.id.doneButton:
+                nameField = (EditText) findViewById(R.id.nameEditBox);
+                String userName = nameField.getText().toString();
+                if (userName.isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Name cannot be empty!", Toast.LENGTH_SHORT).show();
+                    break;
+                }
+                sph.setUserName(nameField.getText().toString());
+                sph.setSetupStatus(true);
+                Intent i = new Intent(this, HomeActivity.class);
+                startActivity(i);
+                break;
+
+        }
     }
 }
