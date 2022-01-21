@@ -3,6 +3,14 @@ package com.example.pocketcontrol;
 public class Category {
     private int categoryID;
     private String categoryName;
+    private double totalValueInCategory;
+
+
+    public Category(int categoryID, String categoryName, double totalValueInCategory) {
+        this.categoryID = categoryID;
+        this.categoryName = categoryName;
+        this.totalValueInCategory = totalValueInCategory;
+    }
 
     public Category(int categoryID, String categoryName) {
         this.categoryID = categoryID;
@@ -17,15 +25,11 @@ public class Category {
         return categoryID;
     }
 
-    public void setCategoryID(int categoryID) {
-        this.categoryID = categoryID;
-    }
-
     public String getCategoryName() {
         return categoryName;
     }
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
+    public double getTotalValueInCategory() {
+        return totalValueInCategory;
     }
 }

@@ -1,7 +1,6 @@
 package com.example.pocketcontrol;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
 
 import java.util.ArrayList;
 
@@ -26,9 +26,11 @@ public class MainActivity extends AppCompatActivity {
 
         // setup shared preference and database handler
         db = new DatabaseHandler(this);
+
+
         sph = new SharedPreferenceHandler(getApplicationContext());
         // Use this whenever you wish to reset the first setup process
-        sph.setSetupStatus(false);
+        // sph.setSetupStatus(false);
 
         Boolean setupStatus = sph.getSetupStatus();
 
@@ -42,22 +44,41 @@ public class MainActivity extends AppCompatActivity {
             // already setup, redirect to main page
             Intent i = new Intent(this, HomeActivity.class);
             startActivity(i);
+
+            // kill off the activity so the user cannot return to it
+            finish();
         }
 
-
-        /* uncomment should u need to replace all the categories with default
+        // uncomment should u need to replace all the categories with default
+        /*
         db.wipeAllCategories();
         db.addCategory(new Category("Food"));
         db.addCategory(new Category("Misc"));
         db.addCategory(new Category("Entertainment"));
         */
 
-        ArrayList<Category> categories = db.getAllCategories();
+        // uncomment should u need to replace all the items with default
 
-        Log.d("", "All Categories: ");
-        for (Category category : categories) {
-            Log.d("", category.getCategoryName());
+        /*
+        db.wipeAllItems();
+        db.addItem(new Item(1, "Chicken Rice", 3.50));
+        db.addItem(new Item(1, "Waffle", 1.00));
+        db.addItem(new Item(3, "Logitech G304 Mouse", 79.90));
+        db.addItem(new Item(2, "Ez-Link Card Topup", 10.00));
+        */
+
+        ArrayList<Category> categoriesWithItemTotals = db.getAllCategoriesWithItemTotals();
+        Log.d("", "All Categories with item totals: ");
+        for (Category category : categoriesWithItemTotals) {
+            Log.d("", String.format("%s: $%.2f", category.getCategoryName(), category.getTotalValueInCategory()));
         }
+
+        ArrayList<Item> items = db.getAllItems();
+        for (Item item : items) {
+            Log.d("", String.format("%s (%s): $%.2f", item.getItemName(), item.getItemCategoryName()
+                    , item.getItemValue()));
+        }
+
     }
 
     public void onClick(View view) {
@@ -73,12 +94,14 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Name cannot be empty!", Toast.LENGTH_SHORT).show();
                     break;
                 }
+
                 sph.setUserName(nameField.getText().toString());
                 sph.setSetupStatus(true);
                 Intent i = new Intent(this, HomeActivity.class);
                 startActivity(i);
-                break;
 
+                // kill off the activity so the user cannot return to it
+                finish();
         }
     }
 }

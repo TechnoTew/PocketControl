@@ -3,6 +3,7 @@ package com.example.pocketcontrol;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Window;
 import android.widget.TextView;
 
@@ -25,9 +26,6 @@ public class SplashScreen extends AppCompatActivity {
         // Launch the layout -> splash.xml
         setContentView(R.layout.splash);
 
-
-
-
         Thread splashThread = new Thread() {
 
             public void run() {
@@ -43,6 +41,9 @@ public class SplashScreen extends AppCompatActivity {
                     // Launch the MainActivity class
                     Intent intent = new Intent(SplashScreen.this, MainActivity.class);
                     startActivity(intent);
+
+                    // kill off the activity so the user cannot return to it
+                    finish();
                 }
 
             }
