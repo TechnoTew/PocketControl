@@ -50,22 +50,24 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // uncomment should u need to replace all the categories with default
-        /*
-        db.wipeAllCategories();
-        db.addCategory(new Category("Food"));
-        db.addCategory(new Category("Misc"));
-        db.addCategory(new Category("Entertainment"));
-        */
+        // db.wipeAllCategories();
+
+        // check if there is information in the database, if there is not, put in some default data
+        if (db.getAllCategories().size() == 0) {
+            db.addCategory(new Category("Food"));
+            db.addCategory(new Category("Misc"));
+            db.addCategory(new Category("Entertainment"));
+        }
 
         // uncomment should u need to replace all the items with default
+        //db.wipeAllItems();
 
-        /*
-        db.wipeAllItems();
-        db.addItem(new Item(1, "Chicken Rice", 3.50));
-        db.addItem(new Item(1, "Waffle", 1.00));
-        db.addItem(new Item(3, "Logitech G304 Mouse", 79.90));
-        db.addItem(new Item(2, "Ez-Link Card Topup", 10.00));
-        */
+        if (db.getAllItems().size() == 0) {
+            db.addItem(new Item(1, "Chicken Rice", 3.50));
+            db.addItem(new Item(1, "Waffle", 1.00));
+            db.addItem(new Item(3, "Logitech G304 Mouse", 79.90));
+            db.addItem(new Item(2, "Ez-Link Card Topup", 10.00));
+        }
 
         ArrayList<Category> categoriesWithItemTotals = db.getAllCategoriesWithItemTotals();
         Log.d("", "All Categories with item totals: ");
