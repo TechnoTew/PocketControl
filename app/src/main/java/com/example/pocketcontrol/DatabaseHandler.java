@@ -17,6 +17,7 @@ public class DatabaseHandler  extends SQLiteOpenHelper {
     // database key names
     private static final String KEY_CATEGORY_ID = "category_id";
     private static final String KEY_CATEGORY_NAME = "category_name";
+    private static final String KEY_MAX_AMOUNT_TO_SPEND_IN_CATEGORY = "max_amount_to_spend";
 
     private static final String KEY_ITEM_ID = "item_id";
     private static final String KEY_FK_CATEGORY_ID = "fk_category_id";
@@ -33,7 +34,7 @@ public class DatabaseHandler  extends SQLiteOpenHelper {
     // Creating Tables
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_CATEGORIES_TABLE = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s TEXT NOT NULL);", TABLE_CATEGORIES, KEY_CATEGORY_ID, KEY_CATEGORY_NAME);
+        String CREATE_CATEGORIES_TABLE = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s TEXT NOT NULL, %s NUMERIC NOT NULL);", TABLE_CATEGORIES, KEY_CATEGORY_ID, KEY_CATEGORY_NAME, KEY_MAX_AMOUNT_TO_SPEND_IN_CATEGORY);
 
         String CREATE_ITEMS_TABLE = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s INTEGER NOT NULL, %s TEXT NOT NULL, %s NUMERIC NOT NULL, FOREIGN KEY(%s) REFERENCES %s ON DELETE NO ACTION ON UPDATE NO ACTION);", TABLE_ITEMS, KEY_ITEM_ID, KEY_FK_CATEGORY_ID, KEY_ITEM_NAME, KEY_ITEM_VALUE, KEY_FK_CATEGORY_ID, TABLE_CATEGORIES);
         db.execSQL(CREATE_CATEGORIES_TABLE);
@@ -66,9 +67,6 @@ public class DatabaseHandler  extends SQLiteOpenHelper {
     Item getItem(int itemID) {
         SQLiteDatabase db = this.getReadableDatabase();
 
-        //Cursor cursor = db.query(TABLE_ITEMS, new String[] { "*" }, KEY_ITEM_ID + "= ?",
-                //new String[] { String.valueOf(itemID) }, null, null, null, null);
-
         Cursor cursor = db.rawQuery(String.format("SElECT item_id, %s, c.%s, %s, %s FROM %s i INNER JOIN %s c ON c.%s = i.%s WHERE i.%s = ?", KEY_ITEM_NAME, KEY_CATEGORY_NAME, KEY_ITEM_VALUE, KEY_FK_CATEGORY_ID, TABLE_ITEMS, TABLE_CATEGORIES, KEY_CATEGORY_ID, KEY_FK_CATEGORY_ID, KEY_ITEM_ID), new String[]{String.valueOf(itemID)});
         if (cursor != null) cursor.moveToFirst();
 
@@ -83,7 +81,7 @@ public class DatabaseHandler  extends SQLiteOpenHelper {
         ArrayList<Item> itemList = new ArrayList<Item>();
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(String.format("SElECT item_id, %s, c.%s, %s, %s FROM %s i INNER JOIN %s c ON c.%s = i.%s", KEY_ITEM_NAME, KEY_CATEGORY_NAME, KEY_ITEM_VALUE, KEY_FK_CATEGORY_ID, TABLE_ITEMS, TABLE_CATEGORIES, KEY_CATEGORY_ID, KEY_FK_CATEGORY_ID, KEY_ITEM_ID), null);
+        Cursor cursor = db.rawQuery(String.format("SElECT item_id, %s, c.%s, %s, %s FROM %s i INNER JOIN %s c ON c.%s = i.%s", KEY_ITEM_NAME, KEY_CATEGORY_NAME, KEY_ITEM_VALUE, KEY_FK_CATEGORY_ID, TABLE_ITEMS, TABLE_CATEGORIES, KEY_CATEGORY_ID, KEY_FK_CATEGORY_ID), null);
 
         // loop through all the rows and add to the array list
         if (cursor.moveToFirst()) {
@@ -103,7 +101,7 @@ public class DatabaseHandler  extends SQLiteOpenHelper {
         ArrayList<Item> itemList = new ArrayList<Item>();
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(String.format("SElECT item_id, %s, c.%s, %s, %s FROM %s i INNER JOIN %s c ON c.%s = i.%s ORDER BY item_id DESC LIMIT 5", KEY_ITEM_NAME, KEY_CATEGORY_NAME, KEY_ITEM_VALUE, KEY_FK_CATEGORY_ID, TABLE_ITEMS, TABLE_CATEGORIES, KEY_CATEGORY_ID, KEY_FK_CATEGORY_ID, KEY_ITEM_ID), null);
+        Cursor cursor = db.rawQuery(String.format("SElECT item_id, %s, c.%s, %s, %s FROM %s i INNER JOIN %s c ON c.%s = i.%s ORDER BY %s DESC LIMIT 5", KEY_ITEM_NAME, KEY_CATEGORY_NAME, KEY_ITEM_VALUE, KEY_FK_CATEGORY_ID, TABLE_ITEMS, TABLE_CATEGORIES, KEY_CATEGORY_ID, KEY_FK_CATEGORY_ID, KEY_ITEM_ID), null);
 
         // loop through all the rows and add to the array list
         if (cursor.moveToFirst()) {
@@ -132,6 +130,7 @@ public class DatabaseHandler  extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
         values.put(KEY_CATEGORY_NAME, category.getCategoryName());
+        values.put(KEY_MAX_AMOUNT_TO_SPEND_IN_CATEGORY, category.getMaxValueToSpendInCategory());
 
         db.insert(TABLE_CATEGORIES, null, values);
         db.close();
@@ -148,12 +147,13 @@ public class DatabaseHandler  extends SQLiteOpenHelper {
         // loop through all the rows and add to the category list
         if (cursor.moveToFirst()) {
             do {
-                Category category = new Category(Integer.parseInt(cursor.getString(0)), cursor.getString(1));
+                Category category = new Category(Integer.parseInt(cursor.getString(0)), cursor.getString(1), Double.parseDouble(cursor.getString(2)));
 
                 categoryList.add(category);
             } while (cursor.moveToNext());
         }
 
+        cursor.close();
         db.close();
         return categoryList;
     }
@@ -161,7 +161,7 @@ public class DatabaseHandler  extends SQLiteOpenHelper {
     public ArrayList<Category> getAllCategoriesWithItemTotals() {
         ArrayList<Category> categoryList = new ArrayList<Category>();
 
-        String selectQuery = String.format("SELECT %s, %s, IFNULL(SUM(%s), 0) as total FROM %s c LEFT JOIN %s i ON i.%s = c.%s GROUP BY c.%s;", KEY_CATEGORY_ID, KEY_CATEGORY_NAME, KEY_ITEM_VALUE, TABLE_CATEGORIES, TABLE_ITEMS, KEY_FK_CATEGORY_ID, KEY_CATEGORY_ID, KEY_CATEGORY_ID, KEY_CATEGORY_ID);
+        String selectQuery = String.format("SELECT %s, %s, %s, IFNULL(SUM(%s), 0) as total FROM %s c LEFT JOIN %s i ON i.%s = c.%s GROUP BY c.%s;", KEY_CATEGORY_ID, KEY_CATEGORY_NAME, KEY_MAX_AMOUNT_TO_SPEND_IN_CATEGORY, KEY_ITEM_VALUE, TABLE_CATEGORIES, TABLE_ITEMS, KEY_FK_CATEGORY_ID, KEY_CATEGORY_ID, KEY_CATEGORY_ID);
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -169,11 +169,12 @@ public class DatabaseHandler  extends SQLiteOpenHelper {
         // loop through all the rows and add to the category list
         if (cursor.moveToFirst()) {
             do {
-                Category category = new Category(cursor.getInt(0), cursor.getString(1), Double.parseDouble(cursor.getString(2)));
+                Category category = new Category(cursor.getInt(0), cursor.getString(1), Double.parseDouble(cursor.getString(2)), Double.parseDouble(cursor.getString(3)));
                 categoryList.add(category);
             } while (cursor.moveToNext());
         }
 
+        cursor.close();
         db.close();
         return categoryList;
     }

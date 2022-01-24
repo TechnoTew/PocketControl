@@ -27,6 +27,43 @@ public class MainActivity extends AppCompatActivity {
         // setup shared preference and database handler
         db = new DatabaseHandler(this);
 
+        // uncomment should u need to rebuild whole database
+        // getApplicationContext().deleteDatabase("PocketControl");
+
+        // uncomment should u need to replace all the categories with default
+        // db.wipeAllCategories();
+
+        // check if there is information in the database, if there is not, put in some default data
+        if (db.getAllCategories().size() == 0) {
+            db.addCategory(new Category("Food", 100.00));
+            db.addCategory(new Category("Essentials", 100.00));
+            db.addCategory(new Category("Entertainment", 100.00));
+            db.addCategory(new Category("Snacks", 50.00));
+        }
+
+        // uncomment should u need to replace all the items with default
+        // db.wipeAllItems();
+
+        if (db.getAllItems().size() == 0) {
+            db.addItem(new Item(1, "Chicken Rice", 3.50));
+            db.addItem(new Item(4, "Waffle", 1.00));
+            db.addItem(new Item(3, "Logitech G304 Mouse", 79.90));
+            db.addItem(new Item(2, "Ez-Link Card Topup", 10.00));
+        }
+
+        ArrayList<Category> categoriesWithItemTotals = db.getAllCategoriesWithItemTotals();
+        Log.d("", "All Categories with item totals: ");
+        for (Category category : categoriesWithItemTotals) {
+            Log.d("", String.format("%s: $%.2f", category.getCategoryName(), category.getTotalValueInCategory()));
+        }
+
+        ArrayList<Item> items = db.getAllItems();
+        for (Item item : items) {
+            Log.d("", String.format("%s (%s): $%.2f", item.getItemName(), item.getItemCategoryName()
+                    , item.getItemValue()));
+        }
+
+
 
         sph = new SharedPreferenceHandler(getApplicationContext());
         // Use this whenever you wish to reset the first setup process
@@ -49,37 +86,7 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
 
-        // uncomment should u need to replace all the categories with default
-        // db.wipeAllCategories();
 
-        // check if there is information in the database, if there is not, put in some default data
-        if (db.getAllCategories().size() == 0) {
-            db.addCategory(new Category("Food"));
-            db.addCategory(new Category("Misc"));
-            db.addCategory(new Category("Entertainment"));
-        }
-
-        // uncomment should u need to replace all the items with default
-        //db.wipeAllItems();
-
-        if (db.getAllItems().size() == 0) {
-            db.addItem(new Item(1, "Chicken Rice", 3.50));
-            db.addItem(new Item(1, "Waffle", 1.00));
-            db.addItem(new Item(3, "Logitech G304 Mouse", 79.90));
-            db.addItem(new Item(2, "Ez-Link Card Topup", 10.00));
-        }
-
-        ArrayList<Category> categoriesWithItemTotals = db.getAllCategoriesWithItemTotals();
-        Log.d("", "All Categories with item totals: ");
-        for (Category category : categoriesWithItemTotals) {
-            Log.d("", String.format("%s: $%.2f", category.getCategoryName(), category.getTotalValueInCategory()));
-        }
-
-        ArrayList<Item> items = db.getAllItems();
-        for (Item item : items) {
-            Log.d("", String.format("%s (%s): $%.2f", item.getItemName(), item.getItemCategoryName()
-                    , item.getItemValue()));
-        }
 
     }
 
