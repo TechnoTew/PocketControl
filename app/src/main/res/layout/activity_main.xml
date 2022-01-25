@@ -5,7 +5,7 @@
     android:id="@+id/announcementContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="Pages.MainActivity">
+    tools:context="Pages.FirstTimeSetup">
 
     <TextView
         android:id="@+id/textView3"

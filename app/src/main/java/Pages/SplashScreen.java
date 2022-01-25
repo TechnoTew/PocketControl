@@ -40,7 +40,7 @@ public class SplashScreen extends AppCompatActivity {
                 } finally
                 {
                     // Launch the MainActivity class
-                    Intent intent = new Intent(SplashScreen.this, MainActivity.class);
+                    Intent intent = new Intent(SplashScreen.this, FirstTimeSetup.class);
                     startActivity(intent);
 
                     // kill off the activity so the user cannot return to it
