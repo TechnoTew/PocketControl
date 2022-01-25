@@ -1,13 +1,14 @@
-package com.example.pocketcontrol;
+package Pages;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.Window;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.pocketcontrol.R;
 
 public class SplashScreen extends AppCompatActivity {
     // initialize variable for char sequence

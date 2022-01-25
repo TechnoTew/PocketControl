@@ -6,22 +6,22 @@
     app:startDestination="@id/overview">
     <fragment
         android:id="@+id/overview"
-        android:name="com.example.pocketcontrol.Overview"
+        android:name="Pages.Overview"
         android:label="fragment_overview"
         tools:layout="@layout/fragment_overview" />
     <fragment
         android:id="@+id/spendings"
-        android:name="com.example.pocketcontrol.Spendings"
+        android:name="Pages.Spendings"
         android:label="fragment_spendings"
         tools:layout="@layout/fragment_spendings" />
     <fragment
         android:id="@+id/budgeting"
-        android:name="com.example.pocketcontrol.Budgeting"
+        android:name="Pages.Budgeting"
         android:label="fragment_blank"
         tools:layout="@layout/fragment_budgeting" />
     <fragment
         android:id="@+id/settings"
-        android:name="com.example.pocketcontrol.Settings"
+        android:name="Pages.Settings"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
 </navigation>

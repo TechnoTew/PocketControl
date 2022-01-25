@@ -1,4 +1,4 @@
-package com.example.pocketcontrol;
+package Pages;
 
 import android.os.Bundle;
 
@@ -18,6 +18,13 @@ import android.graphics.Color;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.example.pocketcontrol.Category;
+import com.example.pocketcontrol.DatabaseHandler;
+import com.example.pocketcontrol.Item;
+import com.example.pocketcontrol.LastSpendingRecordItem;
+import com.example.pocketcontrol.LastSpendingRecordItemArrayAdapter;
+import com.example.pocketcontrol.R;
+import com.example.pocketcontrol.SharedPreferenceHandler;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.PieData;
@@ -31,11 +38,8 @@ public class Overview extends Fragment {
 
     DatabaseHandler db;
     SharedPreferenceHandler sph;
-
     private PieChart chart;
-
     RecyclerView lastSpendingRecordsView;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

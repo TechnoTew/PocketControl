@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
 
-public class DatabaseHandler  extends SQLiteOpenHelper {
+public class DatabaseHandler extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "PocketControl";
     private static final String TABLE_CATEGORIES = "categories";
@@ -52,7 +52,7 @@ public class DatabaseHandler  extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    void addItem(Item item) {
+    public void addItem(Item item) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -64,7 +64,7 @@ public class DatabaseHandler  extends SQLiteOpenHelper {
         db.close();
     }
 
-    Item getItem(int itemID) {
+    public Item getItem(int itemID) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.rawQuery(String.format("SElECT item_id, %s, c.%s, %s, %s FROM %s i INNER JOIN %s c ON c.%s = i.%s WHERE i.%s = ?", KEY_ITEM_NAME, KEY_CATEGORY_NAME, KEY_ITEM_VALUE, KEY_FK_CATEGORY_ID, TABLE_ITEMS, TABLE_CATEGORIES, KEY_CATEGORY_ID, KEY_FK_CATEGORY_ID, KEY_ITEM_ID), new String[]{String.valueOf(itemID)});
@@ -125,7 +125,7 @@ public class DatabaseHandler  extends SQLiteOpenHelper {
         db.close();
     }
 
-    void addCategory(Category category) {
+    public void addCategory(Category category) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();

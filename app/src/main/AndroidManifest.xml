@@ -9,13 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PocketControl">
-        <activity
-            android:name=".HomeActivity"
-            android:exported="false"
-            android:label="Overview"/>
 
         <activity
-            android:name=".SplashScreen"
+            android:name="Pages.NavActivity"
+            android:exported="false"/>
+        <activity
+            android:name="Pages.SplashScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,9 +22,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name=".MainActivity"
+            android:name="Pages.MainActivity"
             android:exported="true"
             android:label="First Time Setup">
             <intent-filter>

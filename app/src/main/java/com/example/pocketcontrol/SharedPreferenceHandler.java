@@ -21,7 +21,7 @@ public class SharedPreferenceHandler {
         return _sharedPreference.getBoolean(KEY_SETUP_STATUS, false);
     }
 
-    void setSetupStatus(Boolean newSetupStatus) {
+    public void setSetupStatus(Boolean newSetupStatus) {
         _preferenceEditor.putBoolean(KEY_SETUP_STATUS, newSetupStatus);
         _preferenceEditor.commit();
     }
@@ -30,7 +30,7 @@ public class SharedPreferenceHandler {
         return _sharedPreference.getString(KEY_PREFS_NAME, "Test Name");
     }
 
-    void setUserName(String newName) {
+    public void setUserName(String newName) {
         _preferenceEditor.putString(KEY_PREFS_NAME, newName);
         _preferenceEditor.commit();
     }
@@ -39,7 +39,7 @@ public class SharedPreferenceHandler {
         return _sharedPreference.getString(KEY_PREFS_THEME, "light");
     }
 
-    void setTheme(String newTheme) {
+    public void setTheme(String newTheme) {
         _preferenceEditor.putString(KEY_PREFS_THEME, newTheme);
         _preferenceEditor.commit();
     }

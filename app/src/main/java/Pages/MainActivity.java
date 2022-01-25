@@ -1,4 +1,4 @@
-package com.example.pocketcontrol;
+package Pages;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,6 +10,12 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+
+import com.example.pocketcontrol.Category;
+import com.example.pocketcontrol.DatabaseHandler;
+import com.example.pocketcontrol.Item;
+import com.example.pocketcontrol.R;
+import com.example.pocketcontrol.SharedPreferenceHandler;
 
 import java.util.ArrayList;
 
@@ -79,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
             // set theme of application
 
             // already setup, redirect to main page
-            Intent i = new Intent(this, HomeActivity.class);
+            Intent i = new Intent(this, NavActivity.class);
             startActivity(i);
 
             // kill off the activity so the user cannot return to it
@@ -106,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
 
                 sph.setUserName(nameField.getText().toString());
                 sph.setSetupStatus(true);
-                Intent i = new Intent(this, HomeActivity.class);
+                Intent i = new Intent(this, NavActivity.class);
                 startActivity(i);
 
                 // kill off the activity so the user cannot return to it
