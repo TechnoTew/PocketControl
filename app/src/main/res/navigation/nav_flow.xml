@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_flow"
+    app:startDestination="@id/overview">
+    <fragment
+        android:id="@+id/overview"
+        android:name="com.example.pocketcontrol.Overview"
+        android:label="fragment_overview"
+        tools:layout="@layout/fragment_overview" />
+    <fragment
+        android:id="@+id/spendings"
+        android:name="com.example.pocketcontrol.Spendings"
+        android:label="fragment_spendings"
+        tools:layout="@layout/fragment_spendings" />
+    <fragment
+        android:id="@+id/budgeting"
+        android:name="com.example.pocketcontrol.Budgeting"
+        android:label="fragment_blank"
+        tools:layout="@layout/fragment_budgeting" />
+    <fragment
+        android:id="@+id/settings"
+        android:name="com.example.pocketcontrol.Settings"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
+</navigation>

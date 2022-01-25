@@ -1,6 +1,7 @@
 package com.example.pocketcontrol;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,17 +17,12 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity {
-
-    DatabaseHandler db;
-    SharedPreferenceHandler sph;
-
-    private PieChart chart;
-
-    RecyclerView lastSpendingRecordsView;
 
 
     @Override
@@ -34,92 +30,46 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homepage);
 
-        sph = new SharedPreferenceHandler(this);
-        TextView welcomeMessage = (TextView) findViewById(R.id.welcomeMessage);
+        BottomNavigationView botNav = findViewById(R.id.bottomNavigationView);
+        botNav.setOnItemSelectedListener(navListener);
+        botNav.setLabelVisibilityMode(NavigationBarView.LABEL_VISIBILITY_LABELED);
+        botNav.setItemHorizontalTranslationEnabled(false);
 
-        welcomeMessage.setText(String.format("Hi, %s", sph.getUserName()));
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView4, new Overview()).commit();
 
-        db = new DatabaseHandler(this);
+    }
 
-        ArrayList<Category> categoriesWithItemTotals = db.getAllCategoriesWithItemTotals();
-        // initialize pie chart
-        chart = findViewById(R.id.pieChart);
-        renderPieChart(chart, categoriesWithItemTotals, 500);
+    private final BottomNavigationView.
+            OnItemSelectedListener navListener = item -> {
+        // By using switch we can easily get
+        // the selected fragment
+        // by using there id.
+        Fragment selectedFragment = null;
+        switch (item.getItemId()) {
+            case R.id.overview:
+                selectedFragment = new Overview();
+                this.setTitle("Overview");
+                break;
+            case R.id.spendings:
+                selectedFragment = new Spendings();
+                this.setTitle("Spendings");
+                break;
+            case R.id.budgeting:
+                selectedFragment = new Budgeting();
+                this.setTitle("Budgeting");
+                break;
+            case R.id.settings:
+                selectedFragment = new Settings();
+                this.setTitle("Settings");
+                break;
 
-        ArrayList<LastSpendingRecordItem> lastSpendingRecordItemArrayList = new ArrayList<LastSpendingRecordItem>();
-        for (Item item: db.getRecent5Items()) {
-            lastSpendingRecordItemArrayList.add(new LastSpendingRecordItem(item.getItemName(), item.getItemValue()));
         }
-        generateUIForRecycleView(lastSpendingRecordItemArrayList);
-    }
-
-    public void generateUIForRecycleView(ArrayList<LastSpendingRecordItem> lastSpendingRecordItems) {
-        //Reference of RecyclerView
-        lastSpendingRecordsView = findViewById(R.id.lastSpendingRecordView);
-        //Linear Layout Manager
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(), RecyclerView.VERTICAL, false);
-        //Set Layout Manager to RecyclerView
-        lastSpendingRecordsView.setLayoutManager(linearLayoutManager);
-
-        //Create adapter
-        LastSpendingRecordItemArrayAdapter myRecyclerViewAdapter = new LastSpendingRecordItemArrayAdapter(lastSpendingRecordItems, new LastSpendingRecordItemArrayAdapter.MyRecyclerViewItemClickListener()
-        {
-
-            @Override
-            public void onItemClicked(LastSpendingRecordItem item) {
-                Log.d("", item.getItemName());
-            }
-        });
-
-        //Set adapter to RecyclerView
-        lastSpendingRecordsView.setAdapter(myRecyclerViewAdapter);
-
-    }
-
-    private void renderPieChart(PieChart pieChart, ArrayList<Category> categoriesWithItemTotals, int animationDurationMillis) {
-        pieChart.getDescription().setEnabled(false);
-        //pieChart.setExtraOffsets(5, 10, 5, 5);
-        pieChart.setCenterText("Budget Overview");
-        pieChart.setUsePercentValues(true);
-
-        ArrayList<PieEntry> entries = new ArrayList<>();
-
-        // adding the items with their categories as labels
-        for (Category category : categoriesWithItemTotals) {
-            entries.add(new PieEntry((float) category.getTotalValueInCategory(), category.getCategoryName()));
-        }
-
-        PieDataSet dataSet = new PieDataSet(entries, "Budget Overview");
-        dataSet.setDrawIcons(false);
-        dataSet.setSliceSpace(0f);
-        dataSet.setSelectionShift(10f);
-        pieChart.setDrawEntryLabels(false);
-
-        //legend attributes
-        Legend legend = pieChart.getLegend();
-        legend.setForm(Legend.LegendForm.CIRCLE);
-        legend.setTextSize(12);
-        legend.setFormSize(20);
-        legend.setFormToTextSpace(2);
-
-
-        // add only material colours into the pie chart
-        ArrayList<Integer> colors = new ArrayList<>();
-
-        for (int c : ColorTemplate.MATERIAL_COLORS)
-            colors.add(c);
-
-        dataSet.setColors(colors);
-
-        PieData data = new PieData(dataSet);
-        data.setValueFormatter(new PercentFormatter(chart));
-        data.setValueTextSize(11f);
-        data.setValueTextColor(Color.WHITE);
-        chart.setData(data);
-
-        chart.invalidate();
-        // animate the chart
-        chart.animateY(animationDurationMillis);
-    }
-
+        // It will help to replace the
+        // one fragment to other.
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragmentContainerView4, selectedFragment)
+                .commit();
+        return true;
+    };
 }
