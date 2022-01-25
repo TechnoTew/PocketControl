@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="Pages.MainActivity"
+            android:name="Pages.FirstTimeSetup"
             android:exported="true"
             android:label="First Time Setup">
             <intent-filter>

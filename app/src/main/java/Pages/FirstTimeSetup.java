@@ -19,7 +19,7 @@ import com.example.pocketcontrol.SharedPreferenceHandler;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class FirstTimeSetup extends AppCompatActivity {
 
     EditText nameField;
     DatabaseHandler db;
