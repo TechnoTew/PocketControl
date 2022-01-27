@@ -22,7 +22,7 @@ public class NavActivity extends AppCompatActivity {
         botNav.setLabelVisibilityMode(NavigationBarView.LABEL_VISIBILITY_LABELED);
         botNav.setItemHorizontalTranslationEnabled(false);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView4, new Overview()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.homeFragment, new Overview()).commit();
     }
 
     private final BottomNavigationView.
@@ -55,7 +55,7 @@ public class NavActivity extends AppCompatActivity {
         getSupportFragmentManager()
                 .beginTransaction()
                 .setCustomAnimations(R.anim.nav_default_pop_enter_anim, R.anim.nav_default_pop_exit_anim) // set animation between page transition
-                .replace(R.id.fragmentContainerView4, selectedFragment)
+                .replace(R.id.homeFragment, selectedFragment)
                 .commit();
         return true;
     };
