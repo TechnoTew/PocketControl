@@ -42,7 +42,7 @@ public class FirstTimeSetup extends AppCompatActivity {
         // check if there is information in the database, if there is not, put in some default data
         if (db.getAllCategories().size() == 0) {
             db.addCategory(new Category("Food", 100.00));
-            db.addCategory(new Category("Essentials", 100.00));
+            db.addCategory(new Category("Essentials", 50));
             db.addCategory(new Category("Entertainment", 100.00));
             db.addCategory(new Category("Snacks", 50.00));
         }
@@ -54,7 +54,7 @@ public class FirstTimeSetup extends AppCompatActivity {
             db.addItem(new Item(1, "Chicken Rice", 3.50));
             db.addItem(new Item(1, "Cheese Chicken Chop", 3.50));
             db.addItem(new Item(2, "Ez-Link Card Topup", 20.00));
-            db.addItem(new Item(2, "Monthly Mobile Plan Subscription", 10.00));
+            db.addItem(new Item(2, "Monthly Mobile Plan Subscription", 13.00));
             db.addItem(new Item(3, "Logitech G304 Mouse", 79.90));
             db.addItem(new Item(4, "Waffle", 1.00));
         }
