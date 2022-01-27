@@ -61,7 +61,8 @@ public class TemplateFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View returnView = inflater.inflate(R.layout.fragment_budgeting, container, false);
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_budgeting, container, false);
+        return returnView;
     }
 }

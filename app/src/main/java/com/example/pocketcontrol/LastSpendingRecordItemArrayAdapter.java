@@ -10,30 +10,30 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class LastSpendingRecordItemArrayAdapter extends RecyclerView.Adapter<LastSpendingRecordItemArrayAdapter.MyViewHolder> {
+public class LastSpendingRecordItemArrayAdapter extends RecyclerView.Adapter<LastSpendingRecordItemArrayAdapter.lastSpendingRecordItemViewHolder> {
 
     private ArrayList<LastSpendingRecordItem> lastSpendingRecordItemArrayList;
-    private MyRecyclerViewItemClickListener mItemClickListener;
+    private lastSpendingRecordItemClickListener itemLastSpendingRecordItemClickListener;
 
-    public LastSpendingRecordItemArrayAdapter(ArrayList<LastSpendingRecordItem> lastSpendingRecordItemArrayList, MyRecyclerViewItemClickListener itemClickListener) {
+    public LastSpendingRecordItemArrayAdapter(ArrayList<LastSpendingRecordItem> lastSpendingRecordItemArrayList, lastSpendingRecordItemClickListener itemLastSpendingRecordItemClickListener) {
         this.lastSpendingRecordItemArrayList = lastSpendingRecordItemArrayList;
-        this.mItemClickListener = itemClickListener;
+        this.itemLastSpendingRecordItemClickListener = itemLastSpendingRecordItemClickListener;
     }
 
     @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        //Inflate RecyclerView row
+    public lastSpendingRecordItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        // Inflate RecyclerView row
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.last_records, parent, false);
 
-        //Create View Holder
-        final MyViewHolder myViewHolder = new MyViewHolder(view);
+        // Create View Holder
+        final lastSpendingRecordItemViewHolder myViewHolder = new lastSpendingRecordItemViewHolder(view);
 
-        //Item Clicks
+        // Item Clicks
         myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mItemClickListener.onItemClicked(lastSpendingRecordItemArrayList.get(myViewHolder.getLayoutPosition()));
+                itemLastSpendingRecordItemClickListener.onItemClicked(lastSpendingRecordItemArrayList.get(myViewHolder.getLayoutPosition()));
             }
         });
 
@@ -41,11 +41,11 @@ public class LastSpendingRecordItemArrayAdapter extends RecyclerView.Adapter<Las
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        //Set Category Name
+    public void onBindViewHolder(@NonNull lastSpendingRecordItemViewHolder holder, int position) {
+        // Set Category Name
         holder.textViewCategoryName.setText(lastSpendingRecordItemArrayList.get(position).getItemName());
 
-        //Set Currency
+        // Set Value
         String value = String.format("-$%.2f", lastSpendingRecordItemArrayList.get(position).getValue());
         holder.textViewValue.setText(value);
 
@@ -66,21 +66,21 @@ public class LastSpendingRecordItemArrayAdapter extends RecyclerView.Adapter<Las
         return position;
     }
 
-    //RecyclerView View Holder
-    class MyViewHolder extends RecyclerView.ViewHolder {
+    // RecyclerView View Holder
+    class lastSpendingRecordItemViewHolder extends RecyclerView.ViewHolder {
         private TextView textViewCategoryName;
         ;
         private TextView textViewValue;
 
-        MyViewHolder(@NonNull View itemView) {
+        lastSpendingRecordItemViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewCategoryName = itemView.findViewById(R.id.itemName);
             textViewValue = itemView.findViewById(R.id.value);
         }
     }
 
-    //RecyclerView Click Listener
-    public interface MyRecyclerViewItemClickListener {
+    // RecyclerView Click Listener
+    public interface lastSpendingRecordItemClickListener {
         void onItemClicked(LastSpendingRecordItem item);
     }
 }

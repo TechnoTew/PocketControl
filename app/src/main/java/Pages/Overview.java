@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.graphics.Color;
 import android.util.Log;
-import android.widget.TextView;
 
 import com.example.pocketcontrol.Category;
 import com.example.pocketcontrol.DatabaseHandler;
@@ -41,6 +40,10 @@ public class Overview extends Fragment {
     private PieChart chart;
     RecyclerView lastSpendingRecordsView;
 
+    public Overview() {
+        // Required empty public constructor
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +62,7 @@ public class Overview extends Fragment {
         this.renderPieChart(chart, categoriesWithItemTotals, 500);
 
         ArrayList<LastSpendingRecordItem> lastSpendingRecordItemArrayList = new ArrayList<LastSpendingRecordItem>();
-        for (Item item: db.getRecent5Items()) {
+        for (Item item: db.getAllItems()) {
             lastSpendingRecordItemArrayList.add(new LastSpendingRecordItem(item.getItemName(), item.getItemValue()));
         }
         generateUIForRecycleView(view, lastSpendingRecordItemArrayList);
@@ -68,15 +71,15 @@ public class Overview extends Fragment {
     }
 
     public View generateUIForRecycleView(View view, ArrayList<LastSpendingRecordItem> lastSpendingRecordItems) {
-        //Reference of RecyclerView
+        // Reference of RecyclerView
         lastSpendingRecordsView = view.findViewById(R.id.lastSpendingRecordView);
-        //Linear Layout Manager
+        // Linear Layout Manager
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(view.getContext(), RecyclerView.VERTICAL, false);
-        //Set Layout Manager to RecyclerView
+        // Set Layout Manager to RecyclerView
         lastSpendingRecordsView.setLayoutManager(linearLayoutManager);
 
-        //Create adapter
-        LastSpendingRecordItemArrayAdapter myRecyclerViewAdapter = new LastSpendingRecordItemArrayAdapter(lastSpendingRecordItems, new LastSpendingRecordItemArrayAdapter.MyRecyclerViewItemClickListener()
+        // Create adapter
+        LastSpendingRecordItemArrayAdapter myRecyclerViewAdapter = new LastSpendingRecordItemArrayAdapter(lastSpendingRecordItems, new LastSpendingRecordItemArrayAdapter.lastSpendingRecordItemClickListener()
         {
 
             @Override
@@ -85,7 +88,7 @@ public class Overview extends Fragment {
             }
         });
 
-        //Set adapter to RecyclerView
+        // Set adapter to RecyclerView
         lastSpendingRecordsView.setAdapter(myRecyclerViewAdapter);
 
         return view;
@@ -93,7 +96,6 @@ public class Overview extends Fragment {
 
     private void renderPieChart(PieChart pieChart, ArrayList<Category> categoriesWithItemTotals, int animationDurationMillis) {
         pieChart.getDescription().setEnabled(false);
-        //pieChart.setExtraOffsets(5, 10, 5, 5);
         pieChart.setCenterText("Budget Overview");
         pieChart.setUsePercentValues(true);
 
@@ -101,7 +103,7 @@ public class Overview extends Fragment {
 
         // adding the items with their categories as labels
         for (Category category : categoriesWithItemTotals) {
-            entries.add(new PieEntry((float) category.getTotalValueInCategory(), category.getCategoryName()));
+            entries.add(new PieEntry((float) category.getTotalValueSpentInCategory(), category.getCategoryName()));
         }
 
         PieDataSet dataSet = new PieDataSet(entries, "Budget Overview");

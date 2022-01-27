@@ -23,7 +23,6 @@ public class NavActivity extends AppCompatActivity {
         botNav.setItemHorizontalTranslationEnabled(false);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView4, new Overview()).commit();
-
     }
 
     private final BottomNavigationView.
@@ -55,6 +54,7 @@ public class NavActivity extends AppCompatActivity {
         // one fragment to other.
         getSupportFragmentManager()
                 .beginTransaction()
+                .setCustomAnimations(R.anim.nav_default_pop_enter_anim, R.anim.nav_default_pop_exit_anim) // set animation between page transition
                 .replace(R.id.fragmentContainerView4, selectedFragment)
                 .commit();
         return true;

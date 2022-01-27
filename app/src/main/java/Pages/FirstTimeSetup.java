@@ -28,13 +28,13 @@ public class FirstTimeSetup extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        // setup shared preference and database handler
-        db = new DatabaseHandler(this);
+        setContentView(R.layout.activity_first_time_setup);
 
         // uncomment should u need to rebuild whole database
         // getApplicationContext().deleteDatabase("PocketControl");
+
+        // setup shared preference and database handler
+        db = new DatabaseHandler(this);
 
         // uncomment should u need to replace all the categories with default
         // db.wipeAllCategories();
@@ -52,15 +52,17 @@ public class FirstTimeSetup extends AppCompatActivity {
 
         if (db.getAllItems().size() == 0) {
             db.addItem(new Item(1, "Chicken Rice", 3.50));
-            db.addItem(new Item(4, "Waffle", 1.00));
+            db.addItem(new Item(1, "Cheese Chicken Chop", 3.50));
+            db.addItem(new Item(2, "Ez-Link Card Topup", 20.00));
+            db.addItem(new Item(2, "Monthly Mobile Plan Subscription", 10.00));
             db.addItem(new Item(3, "Logitech G304 Mouse", 79.90));
-            db.addItem(new Item(2, "Ez-Link Card Topup", 10.00));
+            db.addItem(new Item(4, "Waffle", 1.00));
         }
 
         ArrayList<Category> categoriesWithItemTotals = db.getAllCategoriesWithItemTotals();
         Log.d("", "All Categories with item totals: ");
         for (Category category : categoriesWithItemTotals) {
-            Log.d("", String.format("%s: $%.2f", category.getCategoryName(), category.getTotalValueInCategory()));
+            Log.d("", String.format("%s: $%.2f", category.getCategoryName(), category.getTotalValueSpentInCategory()));
         }
 
         ArrayList<Item> items = db.getAllItems();
@@ -68,8 +70,6 @@ public class FirstTimeSetup extends AppCompatActivity {
             Log.d("", String.format("%s (%s): $%.2f", item.getItemName(), item.getItemCategoryName()
                     , item.getItemValue()));
         }
-
-
 
         sph = new SharedPreferenceHandler(getApplicationContext());
         // Use this whenever you wish to reset the first setup process
@@ -91,9 +91,6 @@ public class FirstTimeSetup extends AppCompatActivity {
             // kill off the activity so the user cannot return to it
             finish();
         }
-
-
-
     }
 
     public void onClick(View view) {

@@ -4,13 +4,13 @@ public class Category {
     private int categoryID;
     private String categoryName;
     private double maxValueToSpendInCategory;
-    private double totalValueInCategory;
+    private double totalValueSpentInCategory;
 
-    public Category(int categoryID, String categoryName, double maxValueToSpendInCategory, double totalValueInCategory) {
+    public Category(int categoryID, String categoryName, double maxValueToSpendInCategory, double totalValueSpentInCategory) {
         this.categoryID = categoryID;
         this.categoryName = categoryName;
         this.maxValueToSpendInCategory = maxValueToSpendInCategory;
-        this.totalValueInCategory = totalValueInCategory;
+        this.totalValueSpentInCategory = totalValueSpentInCategory;
     }
 
     public Category(int categoryID, String categoryName, double maxValueToSpendInCategory) {
@@ -36,7 +36,7 @@ public class Category {
         return this.maxValueToSpendInCategory;
     }
 
-    public double getTotalValueInCategory() {
-        return this.totalValueInCategory;
+    public double getTotalValueSpentInCategory() {
+        return this.totalValueSpentInCategory;
     }
 }
