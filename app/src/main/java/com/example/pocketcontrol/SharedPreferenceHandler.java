@@ -43,4 +43,9 @@ public class SharedPreferenceHandler {
         _preferenceEditor.putString(KEY_PREFS_THEME, newTheme);
         _preferenceEditor.commit();
     }
+
+    public void clearSharedPreferences() {
+        _preferenceEditor.clear();
+        _preferenceEditor.commit();
+    }
 }
