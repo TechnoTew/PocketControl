@@ -13,7 +13,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="248dp"
         android:text="Select your theme."
-        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:textSize="28sp"
+        android:fontFamily="@font/calibre_regular"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
@@ -24,8 +26,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="44dp"
         android:text="Hi there!"
-        android:textSize="34sp"
+        android:textSize="36sp"
         android:fontFamily="@font/calibre_regular"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -36,7 +39,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
         android:text="Please provide us with your name."
-        android:fontFamily="@font/bluunext_titling"
+        android:textColor="@color/black"
+        android:fontFamily="@font/calibre_regular"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -49,6 +53,8 @@
         android:layout_marginTop="72dp"
         android:ems="10"
         android:hint="Name"
+        android:textSize="18sp"
+        android:fontFamily="@font/calibre_regular"
         android:inputType="textPersonName"
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -61,7 +67,9 @@
         android:layout_height="55dp"
         android:layout_marginStart="45dp"
         android:layout_marginTop="350dp"
+        android:fontFamily="@font/calibre_bold"
         android:onClick="onClick"
+        android:textSize="20sp"
         android:text="Reset"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nameEditBox" />
@@ -72,7 +80,9 @@
         android:layout_height="55dp"
         android:layout_marginTop="350dp"
         android:layout_marginEnd="45dp"
+        android:fontFamily="@font/calibre_bold"
         android:onClick="onClick"
+        android:textSize="20sp"
         android:text="Done"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nameEditBox" />
@@ -115,6 +125,7 @@
             android:text="Light"
             android:checked="true"
             android:textSize="30sp"
+            android:fontFamily="@font/calibre_regular"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
@@ -126,6 +137,7 @@
             android:layout_marginTop="-47dp"
             android:textSize="30sp"
             android:text="Dark "
+            android:fontFamily="@font/calibre_regular"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView2" />
     </RadioGroup>
