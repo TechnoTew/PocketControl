@@ -34,12 +34,7 @@ public class Budgeting extends Fragment {
 
         db = new DatabaseHandler(this.getContext());
         ArrayList<Category> categories = db.getAllCategoriesWithItemTotals();
-        for (Category category : categories) {
-            System.out.println(String.format("%s $%.2f $%.2f", category.getCategoryName(), category.getTotalValueSpentInCategory(), category.getMaxValueToSpendInCategory()));
-        }
-
         generateUIForRecycleView(returnView, categories);
-
 
         return returnView;
     }
@@ -50,6 +45,7 @@ public class Budgeting extends Fragment {
 
         // Linear Layout Manager
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(view.getContext(), RecyclerView.VERTICAL, false);
+
         // Set Layout Manager to RecyclerView
         categoryBudgetRecordItemView.setLayoutManager(linearLayoutManager);
 
