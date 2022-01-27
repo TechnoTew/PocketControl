@@ -14,17 +14,18 @@
 
         <TextView
             android:id="@+id/itemName"
-            android:layout_width="100dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="7"
             android:textAlignment="textStart"
             android:textSize="20sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/value"
-            android:layout_width="120dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_weight="3"
             android:textAlignment="viewEnd"
             android:textSize="16sp" />
 
