@@ -30,7 +30,7 @@
         android:layout_width="300dp"
         android:layout_height="64dp"
         android:layout_marginBottom="8dp"
-        android:text="Clear All Items"
+        android:text="Reset All Items"
         android:backgroundTint="@color/PowderBlue"
         android:textColor="@color/black"
         android:textSize="18sp"
