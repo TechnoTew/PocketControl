@@ -135,6 +135,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     // TODO: Implement delete category and edit category
+    public void deleteCategory(int categoryID) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        db.delete(TABLE_CATEGORIES, String.format("%s = ?", KEY_CATEGORY_ID), new String[]{String.valueOf(categoryID)});
+        db.close();
+    }
 
     public ArrayList<Category> getAllCategoriesWithItemTotals() {
         ArrayList<Category> categoryList = new ArrayList<Category>();
