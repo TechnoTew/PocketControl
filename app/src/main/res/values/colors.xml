@@ -147,4 +147,10 @@
     <color name="DarkBlue">#00008B</color>
     <color name="Navy">#000080</color>
     <color name="Black">#000000</color>
+    <color name="PastelGreen">#C1E1C1</color>
+    <color name="BlueVariant1">#1F49C7</color>
+    <color name="SoftPeach">#FDE7C9</color>
+    <color name="LightGrayGreen">#78BF97</color>
+    <color name="GreenVariant1">#3BB06D</color>
+    <color name="GreenVariant2">#2A7E4F</color>
 </resources>
