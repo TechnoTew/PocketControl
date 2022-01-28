@@ -97,6 +97,7 @@ public class Overview extends Fragment {
     private void renderPieChart(PieChart pieChart, ArrayList<Category> categoriesWithItemTotals, int animationDurationMillis) {
         pieChart.getDescription().setEnabled(false);
         pieChart.setCenterText("Budget Overview");
+        pieChart.setCenterTextSize(15);
         pieChart.setUsePercentValues(true);
 
         ArrayList<PieEntry> entries = new ArrayList<>();
@@ -130,8 +131,8 @@ public class Overview extends Fragment {
 
         PieData data = new PieData(dataSet);
         data.setValueFormatter(new PercentFormatter(chart));
-        data.setValueTextSize(11f);
-        data.setValueTextColor(Color.WHITE);
+        data.setValueTextSize(16f);
+        data.setValueTextColor(Color.BLACK);
         chart.setData(data);
 
         chart.invalidate();
