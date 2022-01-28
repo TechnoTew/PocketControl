@@ -23,6 +23,21 @@ public class Item {
         this.itemValue = value;
     }
 
+    public void setFkCategoryID(int fkCategoryID) {
+        this.fkCategoryID = fkCategoryID;
+    }
+
+    public void setItemCategoryName(String itemCategoryName) {
+        this.itemCategoryName = itemCategoryName;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
+
+    public void setItemValue(double itemValue) {
+        this.itemValue = itemValue;
+    }
 
     public String getItemCategoryName() {
         return itemCategoryName;
@@ -42,5 +57,9 @@ public class Item {
 
     public double getItemValue() {
         return itemValue;
+    }
+
+    public String debugItemInfo() {
+        return String.format("Item Name: %s\nItem FK_Category ID: %d\nItem Category name: %s\nItem Value: $%.2f", this.itemName, this.fkCategoryID, this.itemCategoryName, this.itemValue);
     }
 }

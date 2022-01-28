@@ -84,31 +84,22 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    public ArrayList<Item> getAllItems() {
-        ArrayList<Item> itemList = new ArrayList<Item>();
+    public void editItem(int itemID, Item newItem) {
+        SQLiteDatabase db = this.getWritableDatabase();
 
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(String.format("SElECT item_id, %s, c.%s, %s, %s FROM %s i INNER JOIN %s c ON c.%s = i.%s", KEY_ITEM_NAME, KEY_CATEGORY_NAME, KEY_ITEM_VALUE, KEY_FK_CATEGORY_ID, TABLE_ITEMS, TABLE_CATEGORIES, KEY_CATEGORY_ID, KEY_FK_CATEGORY_ID), null);
+        ContentValues values = new ContentValues();
+        values.put(KEY_ITEM_NAME, newItem.getItemName());
+        values.put(KEY_FK_CATEGORY_ID, newItem.getFkCategoryID());
+        values.put(KEY_ITEM_VALUE, newItem.getItemValue());
 
-        // loop through all the rows and add to the array list
-        if (cursor.moveToFirst()) {
-            do {
-                Item item = new Item(Integer.parseInt(cursor.getString(0)), Integer.parseInt(cursor.getString(4)), cursor.getString(2), cursor.getString(1), Double.parseDouble(cursor.getString(3)));
-
-                itemList.add(item);
-            } while (cursor.moveToNext());
-        }
-
-        cursor.close();
-        db.close();
-        return itemList;
+        db.updateWithOnConflict(TABLE_ITEMS, values, String.format("%s = ?", KEY_ITEM_ID), new String[]{String.valueOf(itemID)}, SQLiteDatabase.CONFLICT_ROLLBACK);
     }
 
-    public ArrayList<Item> getRecent5Items() {
+    public ArrayList<Item> getAllItems(Boolean reverseSort) {
         ArrayList<Item> itemList = new ArrayList<Item>();
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(String.format("SElECT item_id, %s, c.%s, %s, %s FROM %s i INNER JOIN %s c ON c.%s = i.%s ORDER BY %s DESC LIMIT 5", KEY_ITEM_NAME, KEY_CATEGORY_NAME, KEY_ITEM_VALUE, KEY_FK_CATEGORY_ID, TABLE_ITEMS, TABLE_CATEGORIES, KEY_CATEGORY_ID, KEY_FK_CATEGORY_ID, KEY_ITEM_ID), null);
+        Cursor cursor = db.rawQuery(String.format("SElECT item_id, %s, c.%s, %s, %s FROM %s i INNER JOIN %s c ON c.%s = i.%s %s", KEY_ITEM_NAME, KEY_CATEGORY_NAME, KEY_ITEM_VALUE, KEY_FK_CATEGORY_ID, TABLE_ITEMS, TABLE_CATEGORIES, KEY_CATEGORY_ID, KEY_FK_CATEGORY_ID, reverseSort ? " ORDER BY item_id DESC" : ""), null);
 
         // loop through all the rows and add to the array list
         if (cursor.moveToFirst()) {
@@ -142,6 +133,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.insertOrThrow(TABLE_CATEGORIES, null, values);
         db.close();
     }
+
+    // TODO: Implement delete category and edit category
 
     public ArrayList<Category> getAllCategoriesWithItemTotals() {
         ArrayList<Category> categoryList = new ArrayList<Category>();

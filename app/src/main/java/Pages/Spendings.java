@@ -1,7 +1,6 @@
 package Pages;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -53,20 +52,17 @@ public class Spendings extends Fragment {
         // Inflate the layout for this fragment
         View returnView = inflater.inflate(R.layout.fragment_spendings, container, false);
 
-        System.out.println(this.getClass());
-
         // Initialize database handler
         db = new DatabaseHandler(this.getContext());
 
         // generate the recycler view for android
-        generateUIForRecycleView(returnView, db.getAllItems());
+        generateUIForRecycleView(returnView, db.getAllItems(false));
 
         FloatingActionButton addItemButton = returnView.findViewById(R.id.addItemFloatingButton);
 
         addItemButton.setOnClickListener(v -> {
             AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(returnView.getContext());
 
-            LayoutInflater layoutInflater = getLayoutInflater();
 
             dialogBuilder.setNegativeButton("Cancel", (dialog, id) -> {
                 // User clicked Cancel button
@@ -78,9 +74,10 @@ public class Spendings extends Fragment {
 
             dialogBuilder.setTitle("Add Item");
 
-            AlertDialog alertDialog = dialogBuilder.create();
+            AlertDialog addItemDialog = dialogBuilder.create();
 
-            View alertView = layoutInflater.inflate(R.layout.add_item_dialog, null);
+            LayoutInflater layoutInflater = getLayoutInflater();
+            View alertView = layoutInflater.inflate(R.layout.item_details_dialog, null);
 
             // initialize inputs
             itemNameEditText = (EditText) alertView.findViewById(R.id.itemNameEditText);
@@ -95,11 +92,11 @@ public class Spendings extends Fragment {
             categorySpinner.setAdapter(categoryArrayAdapter);
 
             // set the dialog to have the custom xml
-            alertDialog.setView(alertView);
+            addItemDialog.setView(alertView);
 
-            alertDialog.show();
+            addItemDialog.show();
 
-            alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+            addItemDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     // override the modal from closing
@@ -128,9 +125,9 @@ public class Spendings extends Fragment {
                         return;
                     }
 
-                    alertDialog.dismiss();
+                    addItemDialog.dismiss();
 
-                   reloadPage();
+                    reloadPage();
                 }
             });
         });
@@ -152,7 +149,11 @@ public class Spendings extends Fragment {
         ItemArrayAdapter itemArrayAdapter = new ItemArrayAdapter(itemArrayList, item -> {
             AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(view.getContext());
 
-            dialogBuilder.setNegativeButton("Delete", (dialog, id) -> {
+            dialogBuilder.setNegativeButton("Cancel", (dialog, id) -> {
+                // User clicked Cancel button
+            });
+
+            dialogBuilder.setNeutralButton("Delete", (dialog, id) -> {
                 // User clicked Delete button
 
                 db.deleteItem(item.getItemID());
@@ -163,11 +164,69 @@ public class Spendings extends Fragment {
                 // User clicked Save button
             });
 
-            dialogBuilder.setTitle(item.getItemName());
+            dialogBuilder.setTitle("Edit Item");
 
-            AlertDialog alertDialog = dialogBuilder.create();
+            AlertDialog editDialog = dialogBuilder.create();
 
-            alertDialog.show();
+            LayoutInflater layoutInflater = getLayoutInflater();
+            View alertView = layoutInflater.inflate(R.layout.item_details_dialog, null);
+
+            // initialize inputs
+            itemNameEditText = (EditText) alertView.findViewById(R.id.itemNameEditText);
+            itemNameErrorText = (TextView) alertView.findViewById(R.id.itemNameError);
+            categorySpinner = (Spinner) alertView.findViewById(R.id.itemCategorySpinner);
+            itemValueEditText = (EditText) alertView.findViewById(R.id.itemValueEditText);
+            itemValueErrorText = (TextView) alertView.findViewById(R.id.itemValueError);
+
+            // initialize the spinner with the categories
+            ArrayAdapter<Category> categoryArrayAdapter = new ArrayAdapter<Category>(view.getContext(), R.layout.simple_spinner_item, db.getAllCategoriesWithItemTotals());
+            categoryArrayAdapter.setDropDownViewResource(R.layout.simple_spinner_item);
+            categorySpinner.setAdapter(categoryArrayAdapter);
+
+            // set the current selected category to the item category
+            categorySpinner.setSelection(item.getFkCategoryID() - 1);
+
+            // set the current selected item name
+            itemNameEditText.setHint(item.getItemName());
+
+            // set the current selected item value
+            itemValueEditText.setHint(String.valueOf(item.getItemValue()));
+
+            // set the dialog to have the custom xml
+            editDialog.setView(alertView);
+
+            editDialog.show();
+
+            editDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // override the modal from closing
+                    final String newItemName = itemNameEditText.getText().toString();
+                    final int newItemCategoryID = ((Category) categorySpinner.getSelectedItem()).getCategoryID();
+                    final String newItemValueString = itemValueEditText.getText().toString();
+
+                    final double newItemValue = newItemValueString.isEmpty() ? -1 : (double) Math.round(Double.parseDouble(newItemValueString) * 100) / 100;
+
+                    // item to store the changed item (set the default to the old item details)
+                    Item updateItem = new Item(item.getFkCategoryID(), item.getItemName(), item.getItemValue());
+
+                    if (!newItemName.isEmpty() && !newItemName.equals(item.getItemName())) updateItem.setItemName(newItemName);
+                    if (newItemCategoryID != item.getFkCategoryID()) updateItem.setFkCategoryID(newItemCategoryID);
+                    if (newItemValue != -1 && newItemValue != item.getItemValue()) updateItem.setItemValue(newItemValue); // ensure that the item value isn't invalid
+
+                    // try to update the item, if there is an error is because the item name already exists
+                    try {
+                        db.editItem(item.getItemID(), updateItem);
+                    } catch (Exception e) {
+                        itemNameErrorText.setText("Item Name already exists!");
+                        return;
+                    }
+
+                    editDialog.dismiss();
+
+                    reloadPage();
+                }
+            });
         });
 
         // set adapter to RecyclerView

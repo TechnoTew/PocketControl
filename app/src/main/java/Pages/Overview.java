@@ -62,7 +62,7 @@ public class Overview extends Fragment {
         this.renderPieChart(chart, categoriesWithItemTotals, 500);
 
         ArrayList<LastSpendingRecordItem> lastSpendingRecordItemArrayList = new ArrayList<LastSpendingRecordItem>();
-        for (Item item: db.getAllItems()) {
+        for (Item item: db.getAllItems(true)) {
             lastSpendingRecordItemArrayList.add(new LastSpendingRecordItem(item.getItemName(), item.getItemValue()));
         }
         generateUIForRecycleView(view, lastSpendingRecordItemArrayList);

@@ -52,7 +52,7 @@ public class FirstTimeSetup extends AppCompatActivity {
         // uncomment should u need to replace all the items with default
         // db.wipeAllItems();
 
-        if (db.getAllItems().size() == 0) {
+        if (db.getAllItems(false).size() == 0) {
             db.addItem(new Item(1, "Chicken Rice", 3.50));
             db.addItem(new Item(1, "Cheese Chicken Chop", 3.50));
             db.addItem(new Item(2, "Ez-Link Card Topup", 20.00));
@@ -67,7 +67,7 @@ public class FirstTimeSetup extends AppCompatActivity {
             Log.d("", String.format("%s: $%.2f", category.getCategoryName(), category.getTotalValueSpentInCategory()));
         }
 
-        ArrayList<Item> items = db.getAllItems();
+        ArrayList<Item> items = db.getAllItems(false);
         for (Item item : items) {
             Log.d("", String.format("%s (%s): $%.2f", item.getItemName(), item.getItemCategoryName()
                     , item.getItemValue()));
