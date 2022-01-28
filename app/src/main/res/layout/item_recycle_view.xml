@@ -23,7 +23,7 @@
             android:fontFamily="@font/montserrat_bold" />
 
         <TextView
-            android:id="@+id/value"
+            android:id="@+id/itemValue"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="3"

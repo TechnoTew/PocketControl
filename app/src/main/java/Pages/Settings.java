@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.pocketcontrol.DatabaseHandler;
+import com.example.pocketcontrol.KeyboardManager;
 import com.example.pocketcontrol.R;
 import com.example.pocketcontrol.SharedPreferenceHandler;
 
@@ -36,7 +37,7 @@ public class Settings extends Fragment {
     private AlertDialog alertDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        builder.setTitle("Error in Input!").setMessage("Name Text Box cannot be empty!");
+        builder.setTitle("Name Input Box cannot be empty!").setMessage("You must input a name!");
 
 
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -64,6 +65,7 @@ public class Settings extends Fragment {
 
         return dialog;
     }
+
     private void hideKeyboard(View v) {
         InputMethodManager inputMethodManager = (InputMethodManager)v.getContext().getSystemService(INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(v.getApplicationWindowToken(),0);
@@ -137,7 +139,8 @@ public class Settings extends Fragment {
                 } else {
                     sph.setUserName(editNameTextBox.getText().toString());
 
-                    hideKeyboard(returnView);
+                    //hideKeyboard(returnView);
+                    KeyboardManager.hideKeyboard(returnView);
                     successDialog.show();
 
                     getParentFragmentManager()

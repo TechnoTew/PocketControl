@@ -1,9 +1,7 @@
 package com.example.pocketcontrol;
 
-import android.content.res.ColorStateList;
 import android.graphics.BlendMode;
 import android.graphics.BlendModeColorFilter;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,36 +10,44 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class CategoryArrayAdapter extends RecyclerView.Adapter<CategoryArrayAdapter.CategoryViewHolder> {
+public class CategoryDetailsArrayAdapter extends RecyclerView.Adapter<CategoryDetailsArrayAdapter.CategoryViewHolder> {
 
     private ArrayList<Category> categoryArrayList;
     private CategoryClickListener categoryClickListener;
+    int okayColour, warningColour, dangerColour;
 
-    public CategoryArrayAdapter(ArrayList<Category> categoryArrayList, CategoryClickListener categoryClickListener) {
+    public CategoryDetailsArrayAdapter(ArrayList<Category> categoryArrayList, CategoryClickListener categoryClickListener) {
         this.categoryArrayList = categoryArrayList;
         this.categoryClickListener = categoryClickListener;
+
     }
 
     @NonNull
     @Override
     public CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // Inflate RecyclerView row
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.budget_records, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.budget_recycle_view, parent, false);
 
         // Create View Holder
         final CategoryViewHolder myViewHolder = new CategoryViewHolder(view);
 
-        //Item Clicks
+        // Item Clicks
         myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 categoryClickListener.onItemClicked(categoryArrayList.get(myViewHolder.getLayoutPosition()));
             }
         });
+
+        // get colour
+        okayColour = ContextCompat.getColor(view.getContext(), R.color.Green);
+        warningColour = ContextCompat.getColor(view.getContext(), R.color.Orange);
+        dangerColour = ContextCompat.getColor(view.getContext(), R.color.IndianRed);
 
         return myViewHolder;
     }
@@ -58,11 +64,11 @@ public class CategoryArrayAdapter extends RecyclerView.Adapter<CategoryArrayAdap
         // Set Progress Bar Colour
         Drawable progressDrawable = holder.progressBar.getProgressDrawable().mutate();
         if (percentageSpent < 50) {
-            progressDrawable.setColorFilter(new BlendModeColorFilter(Color.GREEN, BlendMode.SRC_ATOP));
+            progressDrawable.setColorFilter(new BlendModeColorFilter(okayColour, BlendMode.SRC_ATOP));
         } else if (percentageSpent < 70) {
-            progressDrawable.setColorFilter(new BlendModeColorFilter(Color.YELLOW, BlendMode.SRC_ATOP));
+            progressDrawable.setColorFilter(new BlendModeColorFilter(warningColour, BlendMode.SRC_ATOP));
         } else {
-            progressDrawable.setColorFilter(new BlendModeColorFilter(Color.RED, BlendMode.SRC_ATOP));
+            progressDrawable.setColorFilter(new BlendModeColorFilter(dangerColour, BlendMode.SRC_ATOP));
         }
 
         holder.progressBar.setProgressDrawable(progressDrawable);

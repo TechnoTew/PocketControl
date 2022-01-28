@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.pocketcontrol.Category;
-import com.example.pocketcontrol.CategoryArrayAdapter;
+import com.example.pocketcontrol.CategoryDetailsArrayAdapter;
 import com.example.pocketcontrol.DatabaseHandler;
 import com.example.pocketcontrol.R;
 
@@ -39,7 +39,7 @@ public class Budgeting extends Fragment {
         return returnView;
     }
 
-    public View generateUIForRecycleView(View view, ArrayList<Category> categoryArrayList) {
+    public void generateUIForRecycleView(View view, ArrayList<Category> categoryArrayList) {
         // Reference of RecyclerView
         categoryBudgetRecordItemView = view.findViewById(R.id.budgetView);
 
@@ -50,7 +50,7 @@ public class Budgeting extends Fragment {
         categoryBudgetRecordItemView.setLayoutManager(linearLayoutManager);
 
         // Create adapter
-        CategoryArrayAdapter myRecyclerViewAdapter = new CategoryArrayAdapter(categoryArrayList, new CategoryArrayAdapter.CategoryClickListener() {
+        CategoryDetailsArrayAdapter budgetArrayAdapter = new CategoryDetailsArrayAdapter(categoryArrayList, new CategoryDetailsArrayAdapter.CategoryClickListener() {
             @Override
             public void onItemClicked(Category item) {
 
@@ -58,8 +58,7 @@ public class Budgeting extends Fragment {
         });
 
         // set adapter to RecyclerView
-        categoryBudgetRecordItemView.setAdapter(myRecyclerViewAdapter);
+        categoryBudgetRecordItemView.setAdapter(budgetArrayAdapter);
 
-        return view;
     }
 }

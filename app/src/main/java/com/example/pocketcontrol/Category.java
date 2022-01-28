@@ -39,4 +39,9 @@ public class Category {
     public double getTotalValueSpentInCategory() {
         return this.totalValueSpentInCategory;
     }
+
+    @Override
+    public String toString() {
+        return this.categoryName;
+    }
 }
