@@ -70,9 +70,10 @@ public class Overview extends Fragment {
         return view;
     }
 
-    public View generateUIForRecycleView(View view, ArrayList<LastSpendingRecordItem> lastSpendingRecordItems) {
+    public void generateUIForRecycleView(View view, ArrayList<LastSpendingRecordItem> lastSpendingRecordItems) {
         // Reference of RecyclerView
         lastSpendingRecordsView = view.findViewById(R.id.lastSpendingRecordView);
+
         // Linear Layout Manager
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(view.getContext(), RecyclerView.VERTICAL, false);
         // Set Layout Manager to RecyclerView
@@ -90,8 +91,6 @@ public class Overview extends Fragment {
 
         // Set adapter to RecyclerView
         lastSpendingRecordsView.setAdapter(myRecyclerViewAdapter);
-
-        return view;
     }
 
     private void renderPieChart(PieChart pieChart, ArrayList<Category> categoriesWithItemTotals, int animationDurationMillis) {

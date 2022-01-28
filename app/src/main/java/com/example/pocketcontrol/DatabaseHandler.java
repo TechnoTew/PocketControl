@@ -60,7 +60,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_FK_CATEGORY_ID, item.getFkCategoryID());
         values.put(KEY_ITEM_VALUE, item.getItemValue());
 
-        db.insert(TABLE_ITEMS, null, values);
+        db.insertOrThrow(TABLE_ITEMS, null, values);
         db.close();
     }
 
@@ -75,6 +75,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return item;
+    }
+
+    public void deleteItem(int itemID) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        db.delete(TABLE_ITEMS, String.format("%s = ?", KEY_ITEM_ID), new String[]{String.valueOf(itemID)});
+        db.close();
     }
 
     public ArrayList<Item> getAllItems() {
@@ -132,30 +139,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_CATEGORY_NAME, category.getCategoryName());
         values.put(KEY_MAX_AMOUNT_TO_SPEND_IN_CATEGORY, category.getMaxValueToSpendInCategory());
 
-        db.insert(TABLE_CATEGORIES, null, values);
+        db.insertOrThrow(TABLE_CATEGORIES, null, values);
         db.close();
-    }
-
-    public ArrayList<Category> getAllCategories() {
-        ArrayList<Category> categoryList = new ArrayList<Category>();
-
-        String selectQuery = "SELECT * FROM " + TABLE_CATEGORIES;
-
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
-
-        // loop through all the rows and add to the category list
-        if (cursor.moveToFirst()) {
-            do {
-                Category category = new Category(Integer.parseInt(cursor.getString(0)), cursor.getString(1), Double.parseDouble(cursor.getString(2)));
-
-                categoryList.add(category);
-            } while (cursor.moveToNext());
-        }
-
-        cursor.close();
-        db.close();
-        return categoryList;
     }
 
     public ArrayList<Category> getAllCategoriesWithItemTotals() {

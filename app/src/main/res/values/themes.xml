@@ -6,7 +6,6 @@
         <!-- enable window content transitions -->
         <item name="android:windowActivityTransitions">true</item>
 
-        <!-- Primary brand color. -->
         <!-- Colour scheme for page title bar . -->
         <item name="colorPrimary">@color/GreenVariant2</item>
         <!-- Colour scheme for phone top bar(battery status, wifi status etc.) . -->

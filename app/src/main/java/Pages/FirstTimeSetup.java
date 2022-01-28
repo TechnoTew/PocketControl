@@ -2,6 +2,8 @@ package Pages;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -40,7 +42,7 @@ public class FirstTimeSetup extends AppCompatActivity {
         // db.wipeAllCategories();
 
         // check if there is information in the database, if there is not, put in some default data
-        if (db.getAllCategories().size() == 0) {
+        if (db.getAllCategoriesWithItemTotals().size() == 0) {
             db.addCategory(new Category("Food", 100.00));
             db.addCategory(new Category("Essentials", 50));
             db.addCategory(new Category("Entertainment", 100.00));
@@ -103,7 +105,17 @@ public class FirstTimeSetup extends AppCompatActivity {
                 nameField = (EditText) findViewById(R.id.nameEditBox);
                 String userName = nameField.getText().toString();
                 if (userName.isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "Name cannot be empty!", Toast.LENGTH_SHORT).show();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+                    builder.setTitle("Name Input Box cannot be empty!").setMessage("You must input a name!");
+
+
+                    builder.setPositiveButton("Ok", (dialog, id) -> {
+                        // User clicked OK button
+                    });
+                    AlertDialog alertDialog = builder.create();
+
+                    alertDialog.show();
                     break;
                 }
 

@@ -12,7 +12,9 @@
 
         <activity
             android:name="Pages.NavActivity"
-            android:exported="false"/>
+            android:exported="false"
+            android:windowSoftInputMode ="stateAlwaysHidden"
+            />
         <activity
             android:name="Pages.SplashScreen"
             android:exported="true">
@@ -25,7 +27,8 @@
         <activity
             android:name="Pages.FirstTimeSetup"
             android:exported="true"
-            android:label="First Time Setup">
+            android:label="First Time Setup"
+            android:windowSoftInputMode = "stateAlwaysVisible">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

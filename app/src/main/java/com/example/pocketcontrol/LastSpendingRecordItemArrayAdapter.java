@@ -24,7 +24,7 @@ public class LastSpendingRecordItemArrayAdapter extends RecyclerView.Adapter<Las
     @Override
     public lastSpendingRecordItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // Inflate RecyclerView row
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.last_records, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recycle_view, parent, false);
 
         // Create View Holder
         final lastSpendingRecordItemViewHolder myViewHolder = new lastSpendingRecordItemViewHolder(view);
@@ -75,7 +75,7 @@ public class LastSpendingRecordItemArrayAdapter extends RecyclerView.Adapter<Las
         lastSpendingRecordItemViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewCategoryName = itemView.findViewById(R.id.itemName);
-            textViewValue = itemView.findViewById(R.id.value);
+            textViewValue = itemView.findViewById(R.id.itemValue);
         }
     }
 
