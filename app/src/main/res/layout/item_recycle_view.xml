@@ -19,7 +19,6 @@
             android:layout_weight="7"
             android:textAlignment="textStart"
             android:textSize="20sp"
-            android:textColor="@color/black"
             android:fontFamily="@font/montserrat_bold" />
 
         <TextView
