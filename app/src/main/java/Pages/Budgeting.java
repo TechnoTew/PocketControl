@@ -37,6 +37,14 @@ public class Budgeting extends Fragment {
         // Required empty public constructor
     }
 
+    private void reloadPage() {
+        getParentFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(R.anim.nav_default_pop_enter_anim, R.anim.nav_default_pop_exit_anim) // set animation between page transition
+                .replace(R.id.homeFragment, new Budgeting())
+                .commit();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -93,20 +101,19 @@ public class Budgeting extends Fragment {
                         final String CategoryName = itemNameEditText.getText().toString();
                         final String MaxBudgetValueString = itemValueEditText.getText().toString();
 
-                        // check that the item name cannot be empty
+                        // check that the category name cannot be empty
                         if (CategoryName.isEmpty()) {
                             itemNameErrorText.setText("Item Name cannot be empty!");
                             return;
                         }
 
-                        // check that the item value cannot be empty
+                        // check that the category value cannot be empty
                         if (MaxBudgetValueString.isEmpty()) {
                             itemValueErrorText.setText("Item Value cannot be empty!");
                             return;
                         }
 
                         final double maxbudgetValue = MaxBudgetValueString.isEmpty() ? -1 : (double) Math.round(Double.parseDouble(MaxBudgetValueString) * 100) / 100;
-
                         try {
                             db.addCategory(new Category(CategoryName, maxbudgetValue));
                         } catch (Exception e) {
@@ -116,11 +123,7 @@ public class Budgeting extends Fragment {
 
                         alertDialog.cancel();
 
-                        getParentFragmentManager()
-                                .beginTransaction()
-                                .setCustomAnimations(R.anim.nav_default_pop_enter_anim, R.anim.nav_default_pop_exit_anim) // set animation between page transition
-                                .replace(R.id.homeFragment, new Budgeting())
-                                .commit();
+                        reloadPage();
                     }
                 });
             }
@@ -140,7 +143,7 @@ public class Budgeting extends Fragment {
         categoryBudgetRecordItemView.setLayoutManager(linearLayoutManager);
 
         // Create adapter
-        CategoryDetailsArrayAdapter budgetArrayAdapter = new CategoryDetailsArrayAdapter(categoryArrayList, item -> {
+        CategoryDetailsArrayAdapter budgetArrayAdapter = new CategoryDetailsArrayAdapter(categoryArrayList, category -> {
 
         });
 
