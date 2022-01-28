@@ -40,11 +40,10 @@ public class Settings extends Fragment {
         builder.setTitle("Name Input Box cannot be empty!").setMessage("You must input a name!");
 
 
-        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                // User clicked OK button
-            }
+        builder.setPositiveButton("Ok", (dialog, id) -> {
+            // User clicked OK button
         });
+
         AlertDialog dialog = builder.create();
 
         return dialog;
@@ -56,10 +55,8 @@ public class Settings extends Fragment {
         builder.setTitle("Name Successfully changed!")
                 .setMessage("Redirecting to Overview page...");
 
-        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                // User clicked OK button
-            }
+        builder.setPositiveButton("Ok", (dialog, id) -> {
+            // User clicked OK button
         });
         AlertDialog dialog = builder.create();
 
@@ -91,64 +88,49 @@ public class Settings extends Fragment {
         // set the hint of the old text box to the old username
         editNameTextBox.setHint(sph.getUserName());
 
-        resetAllButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View InputFragmentView)
-            {
+        resetAllButton.setOnClickListener(InputFragmentView -> {
 
-                // wipe all items and categories from the database (will be recreated upon startup)
-                db.wipeAllItems();
-                db.wipeAllCategories();
+            // wipe all items and categories from the database (will be recreated upon startup)
+            db.wipeAllItems();
+            db.wipeAllCategories();
 
-                // clear username and theme preferences
-                sph.clearSharedPreferences();
-                Intent i = getContext().getPackageManager().getLaunchIntentForPackage(getContext().getPackageName());
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(i);
+            // clear username and theme preferences
+            sph.clearSharedPreferences();
+            Intent i = getContext().getPackageManager().getLaunchIntentForPackage(getContext().getPackageName());
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(i);
 
-                getActivity().finish();
-            }
+            getActivity().finish();
         });
 
-        resetAllItemsButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View InputFragmentView)
-            {
-                // wipe all items
-                db.wipeAllItems();
+        resetAllItemsButton.setOnClickListener(InputFragmentView -> {
+            // wipe all items
+            db.wipeAllItems();
 
-                Intent i = getContext().getPackageManager().getLaunchIntentForPackage(getContext().getPackageName());
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(i);
+            Intent i = getContext().getPackageManager().getLaunchIntentForPackage(getContext().getPackageName());
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(i);
 
-                getActivity().finish();
-            }
+            getActivity().finish();
         });
 
-        saveSettingButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View InputFragmentView)
-            {
-                // check if the edit name text box is empty, if yes throw a modal
-                if (editNameTextBox.getText().toString().trim().length() == 0) {
+        saveSettingButton.setOnClickListener(InputFragmentView -> {
+            // check if the edit name text box is empty, if yes throw a modal
+            if (editNameTextBox.getText().toString().trim().length() == 0) {
 
-                    alertDialog.show();
-                } else {
-                    sph.setUserName(editNameTextBox.getText().toString());
+                alertDialog.show();
+            } else {
+                sph.setUserName(editNameTextBox.getText().toString());
 
-                    //hideKeyboard(returnView);
-                    KeyboardManager.hideKeyboard(returnView);
-                    successDialog.show();
+                //hideKeyboard(returnView);
+                KeyboardManager.hideKeyboard(returnView);
+                successDialog.show();
 
-                    getParentFragmentManager()
-                            .beginTransaction()
-                            .setCustomAnimations(R.anim.nav_default_pop_enter_anim, R.anim.nav_default_pop_exit_anim) // set animation between page transition
-                            .replace(R.id.homeFragment, new Overview())
-                            .commit();
-                }
+                getParentFragmentManager()
+                        .beginTransaction()
+                        .setCustomAnimations(R.anim.nav_default_pop_enter_anim, R.anim.nav_default_pop_exit_anim) // set animation between page transition
+                        .replace(R.id.homeFragment, new Overview())
+                        .commit();
             }
         });
 

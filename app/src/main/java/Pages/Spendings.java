@@ -54,7 +54,7 @@ public class Spendings extends Fragment {
         View returnView = inflater.inflate(R.layout.fragment_spendings, container, false);
 
         System.out.println(this.getClass());
-        
+
         // Initialize database handler
         db = new DatabaseHandler(this.getContext());
 

@@ -110,15 +110,12 @@ public class FirstTimeSetup extends AppCompatActivity {
                     builder.setTitle("Name Input Box cannot be empty!").setMessage("You must input a name!");
 
 
-                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            // User clicked OK button
-                        }
+                    builder.setPositiveButton("Ok", (dialog, id) -> {
+                        // User clicked OK button
                     });
                     AlertDialog alertDialog = builder.create();
 
                     alertDialog.show();
-                    //Toast.makeText(getApplicationContext(), "Name cannot be empty!", Toast.LENGTH_SHORT).show();
                     break;
                 }
 

@@ -50,11 +50,8 @@ public class Budgeting extends Fragment {
         categoryBudgetRecordItemView.setLayoutManager(linearLayoutManager);
 
         // Create adapter
-        CategoryDetailsArrayAdapter budgetArrayAdapter = new CategoryDetailsArrayAdapter(categoryArrayList, new CategoryDetailsArrayAdapter.CategoryClickListener() {
-            @Override
-            public void onItemClicked(Category item) {
+        CategoryDetailsArrayAdapter budgetArrayAdapter = new CategoryDetailsArrayAdapter(categoryArrayList, item -> {
 
-            }
         });
 
         // set adapter to RecyclerView
