@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="#FABFBF" >
+    android:background="@drawable/gradient" >
 
     <ImageView
         android:id="@+id/imageView"
@@ -41,7 +41,8 @@
         android:layout_width="248dp"
         android:layout_height="44dp"
         android:layout_marginTop="124dp"
-        android:fontFamily="sans-serif"
+        android:fontFamily="@font/montserrat_bold"
+        android:textColor="@color/black"
         android:text="@string/app_name"
         android:textAlignment="center"
         android:textSize="30sp"
