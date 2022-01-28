@@ -153,14 +153,14 @@ public class Spendings extends Fragment {
             AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(view.getContext());
 
             dialogBuilder.setNegativeButton("Delete", (dialog, id) -> {
-                // User clicked Cancel button
+                // User clicked Delete button
 
                 db.deleteItem(item.getItemID());
                 reloadPage();
             });
 
             dialogBuilder.setPositiveButton("Save", (dialog, id) -> {
-                // User clicked OK button
+                // User clicked Save button
             });
 
             dialogBuilder.setTitle(item.getItemName());
