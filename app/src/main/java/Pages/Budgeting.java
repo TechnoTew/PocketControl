@@ -26,12 +26,12 @@ import java.util.ArrayList;
 
 public class Budgeting extends Fragment {
 
-    DatabaseHandler db;
-    RecyclerView categoryBudgetRecordItemView;
-    EditText itemNameEditText;
-    TextView itemNameErrorText;
-    EditText itemValueEditText;
-    TextView itemValueErrorText;
+    private DatabaseHandler db;
+    private RecyclerView categoryBudgetRecordItemView;
+    private EditText itemNameEditText;
+    private TextView itemNameErrorText;
+    private EditText itemValueEditText;
+    private TextView itemValueErrorText;
 
     public Budgeting() {
         // Required empty public constructor

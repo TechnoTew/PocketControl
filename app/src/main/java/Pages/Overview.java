@@ -35,10 +35,10 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 
 public class Overview extends Fragment {
 
-    DatabaseHandler db;
-    SharedPreferenceHandler sph;
+    private DatabaseHandler db;
+    private SharedPreferenceHandler sph;
     private PieChart chart;
-    RecyclerView lastSpendingRecordsView;
+    private RecyclerView lastSpendingRecordsView;
 
     public Overview() {
         // Required empty public constructor

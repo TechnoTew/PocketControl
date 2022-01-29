@@ -12,10 +12,10 @@ import com.example.pocketcontrol.R;
 
 public class SplashScreen extends AppCompatActivity {
     // initialize variable for char sequence
-    CharSequence charSequence;
-    int index = 0;
-    long delay = 80;
-    Handler handler = new Handler();
+    private CharSequence charSequence;
+    private int index = 0;
+    private long delay = 80;
+    private Handler handler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

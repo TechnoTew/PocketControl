@@ -26,13 +26,13 @@ import java.util.ArrayList;
 
 public class Spendings extends Fragment {
 
-    DatabaseHandler db;
-    RecyclerView itemRecyclerView;
-    EditText itemNameEditText;
-    TextView itemNameErrorText;
-    Spinner categorySpinner;
-    EditText itemValueEditText;
-    TextView itemValueErrorText;
+    private DatabaseHandler db;
+    private RecyclerView itemRecyclerView;
+    private EditText itemNameEditText;
+    private TextView itemNameErrorText;
+    private Spinner categorySpinner;
+    private EditText itemValueEditText;
+    private TextView itemValueErrorText;
 
     public Spendings() {
         // Required empty public constructor

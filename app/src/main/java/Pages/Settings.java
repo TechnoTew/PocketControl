@@ -23,12 +23,12 @@ import com.example.pocketcontrol.SharedPreferenceHandler;
 
 public class Settings extends Fragment {
 
-    DatabaseHandler db;
-    SharedPreferenceHandler sph;
-    Button resetAllButton;
-    Button resetAllItemsButton;
-    EditText editNameTextBox;
-    Button saveSettingButton;
+    private DatabaseHandler db;
+    private SharedPreferenceHandler sph;
+    private Button resetAllButton;
+    private Button resetAllItemsButton;
+    private EditText editNameTextBox;
+    private Button saveSettingButton;
 
     public Settings() {
 

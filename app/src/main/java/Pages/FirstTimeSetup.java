@@ -3,15 +3,12 @@ package Pages;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
-
 
 import com.example.pocketcontrol.Category;
 import com.example.pocketcontrol.DatabaseHandler;
@@ -19,13 +16,14 @@ import com.example.pocketcontrol.Item;
 import com.example.pocketcontrol.R;
 import com.example.pocketcontrol.SharedPreferenceHandler;
 
+
 import java.util.ArrayList;
 
 public class FirstTimeSetup extends AppCompatActivity {
 
-    EditText nameField;
-    DatabaseHandler db;
-    SharedPreferenceHandler sph;
+    private EditText nameField;
+    private DatabaseHandler db;
+    private SharedPreferenceHandler sph;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
