@@ -85,10 +85,10 @@ public class Budgeting extends Fragment {
                 View alertView = layoutInflater.inflate(R.layout.add_budget_dialog, null);
 
                 // initialize inputs
-                itemNameEditText = (EditText) alertView.findViewById(R.id.itemNameEditText);
-                itemNameErrorText = (TextView) alertView.findViewById(R.id.itemNameError);
-                itemValueEditText = (EditText) alertView.findViewById(R.id.itemValueEditText);
-                itemValueErrorText = (TextView) alertView.findViewById(R.id.itemValueError);
+                itemNameEditText = alertView.findViewById(R.id.itemNameEditText);
+                itemNameErrorText = alertView.findViewById(R.id.itemNameError);
+                itemValueEditText = alertView.findViewById(R.id.itemValueEditText);
+                itemValueErrorText = alertView.findViewById(R.id.itemValueError);
 
                 alertDialog.setView(alertView);
 

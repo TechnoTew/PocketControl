@@ -80,11 +80,11 @@ public class Spendings extends Fragment {
             View alertView = layoutInflater.inflate(R.layout.item_details_dialog, null);
 
             // initialize inputs
-            itemNameEditText = (EditText) alertView.findViewById(R.id.itemNameEditText);
-            itemNameErrorText = (TextView) alertView.findViewById(R.id.itemNameError);
-            categorySpinner = (Spinner) alertView.findViewById(R.id.itemCategorySpinner);
-            itemValueEditText = (EditText) alertView.findViewById(R.id.itemValueEditText);
-            itemValueErrorText = (TextView) alertView.findViewById(R.id.itemValueError);
+            itemNameEditText = alertView.findViewById(R.id.itemNameEditText);
+            itemNameErrorText = alertView.findViewById(R.id.itemNameError);
+            categorySpinner = alertView.findViewById(R.id.itemCategorySpinner);
+            itemValueEditText = alertView.findViewById(R.id.itemValueEditText);
+            itemValueErrorText = alertView.findViewById(R.id.itemValueError);
 
             // initialize the spinner with the categories
             ArrayAdapter<Category> categoryArrayAdapter = new ArrayAdapter<Category>(returnView.getContext(), R.layout.simple_spinner_item, db.getAllCategoriesWithItemTotals());
@@ -172,11 +172,11 @@ public class Spendings extends Fragment {
             View alertView = layoutInflater.inflate(R.layout.item_details_dialog, null);
 
             // initialize inputs
-            itemNameEditText = (EditText) alertView.findViewById(R.id.itemNameEditText);
-            itemNameErrorText = (TextView) alertView.findViewById(R.id.itemNameError);
-            categorySpinner = (Spinner) alertView.findViewById(R.id.itemCategorySpinner);
-            itemValueEditText = (EditText) alertView.findViewById(R.id.itemValueEditText);
-            itemValueErrorText = (TextView) alertView.findViewById(R.id.itemValueError);
+            itemNameEditText =alertView.findViewById(R.id.itemNameEditText);
+            itemNameErrorText = alertView.findViewById(R.id.itemNameError);
+            categorySpinner = alertView.findViewById(R.id.itemCategorySpinner);
+            itemValueEditText = alertView.findViewById(R.id.itemValueEditText);
+            itemValueErrorText = alertView.findViewById(R.id.itemValueError);
 
             // initialize the spinner with the categories
             ArrayAdapter<Category> categoryArrayAdapter = new ArrayAdapter<Category>(view.getContext(), R.layout.simple_spinner_item, db.getAllCategoriesWithItemTotals());
