@@ -1,5 +1,6 @@
 package Pages;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
@@ -15,6 +16,13 @@ import com.example.pocketcontrol.DatabaseHandler;
 import com.example.pocketcontrol.Item;
 import com.example.pocketcontrol.R;
 import com.example.pocketcontrol.SharedPreferenceHandler;
+import com.google.android.gms.ads.AdError;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.FullScreenContentCallback;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 
 
 import java.util.ArrayList;
@@ -24,6 +32,7 @@ public class FirstTimeSetup extends AppCompatActivity {
     private EditText nameField;
     private DatabaseHandler db;
     private SharedPreferenceHandler sph;
+    private InterstitialAd interstitialAd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

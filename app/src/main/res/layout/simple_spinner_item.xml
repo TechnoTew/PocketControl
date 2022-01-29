@@ -7,8 +7,8 @@
     android:layout_marginTop="5dp"
     android:layout_marginBottom="5dp"
     android:layout_weight="7"
-    android:fontFamily="@font/montserrat_bold"
-    android:paddingStart="5dp"
+    android:fontFamily="@font/montserrat_regular"
+    android:paddingStart="3dp"
     android:paddingEnd="5dp"
     android:textAlignment="textStart"
     android:textSize="20sp" />

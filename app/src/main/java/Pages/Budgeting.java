@@ -1,7 +1,6 @@
 package Pages;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -11,14 +10,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.pocketcontrol.Category;
 import com.example.pocketcontrol.CategoryDetailsArrayAdapter;
 import com.example.pocketcontrol.DatabaseHandler;
-import com.example.pocketcontrol.Item;
 import com.example.pocketcontrol.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -28,10 +25,10 @@ public class Budgeting extends Fragment {
 
     private DatabaseHandler db;
     private RecyclerView categoryBudgetRecordItemView;
-    private EditText itemNameEditText;
-    private TextView itemNameErrorText;
-    private EditText itemValueEditText;
-    private TextView itemValueErrorText;
+    private EditText categoryNameEditText;
+    private TextView categoryNameErrorText;
+    private EditText categoryMaxValueEditText;
+    private TextView categoryValueErrorText;
 
     public Budgeting() {
         // Required empty public constructor
@@ -57,76 +54,67 @@ public class Budgeting extends Fragment {
 
         generateUIForRecycleView(returnView, categories);
 
-        FloatingActionButton addBudgetButton = returnView.findViewById(R.id.addBudgetFloatingButton);
+        FloatingActionButton addCategoryButton = returnView.findViewById(R.id.addBudgetFloatingButton);
 
-        addBudgetButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(returnView.getContext());
+        addCategoryButton.setOnClickListener(addBudgetButtonView -> {
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(returnView.getContext());
 
-                LayoutInflater layoutInflater = getLayoutInflater();
+            LayoutInflater layoutInflater = getLayoutInflater();
 
-                dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User clicked Cancel button
-                    }
-                });
+            dialogBuilder.setNegativeButton("Cancel", (dialog, id) -> {
+                // User clicked Cancel button
+            });
 
-                dialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User clicked OK button
-                    }
-                });
+            dialogBuilder.setPositiveButton("Ok", (dialog, id) -> {
+                // User clicked OK button
+            });
 
-                dialogBuilder.setTitle("Add Budget");
+            dialogBuilder.setTitle("Add Category");
 
-                AlertDialog alertDialog = dialogBuilder.create();
+            AlertDialog addCategoryDialog = dialogBuilder.create();
 
-                View alertView = layoutInflater.inflate(R.layout.add_budget_dialog, null);
+            View alertView = layoutInflater.inflate(R.layout.category_details_dialog, null);
 
-                // initialize inputs
-                itemNameEditText = alertView.findViewById(R.id.itemNameEditText);
-                itemNameErrorText = alertView.findViewById(R.id.itemNameError);
-                itemValueEditText = alertView.findViewById(R.id.itemValueEditText);
-                itemValueErrorText = alertView.findViewById(R.id.itemValueError);
+            // initialize inputs
+            categoryNameEditText = alertView.findViewById(R.id.itemNameEditText);
+            categoryNameErrorText = alertView.findViewById(R.id.itemNameError);
+            categoryMaxValueEditText = alertView.findViewById(R.id.itemValueEditText);
+            categoryValueErrorText = alertView.findViewById(R.id.itemValueError);
 
-                alertDialog.setView(alertView);
+            addCategoryDialog.setView(alertView);
 
-                alertDialog.show();
+            addCategoryDialog.show();
 
-                alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // override the modal from closing
-                        final String CategoryName = itemNameEditText.getText().toString();
-                        final String MaxBudgetValueString = itemValueEditText.getText().toString();
+            addCategoryDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(alertDialogView -> {
+                // override the modal from closing
+                final String newCategoryName = categoryNameEditText.getText().toString();
+                final String newCategoryMaxBudgetValueString = categoryMaxValueEditText.getText().toString();
 
-                        // check that the category name cannot be empty
-                        if (CategoryName.isEmpty()) {
-                            itemNameErrorText.setText("Item Name cannot be empty!");
-                            return;
-                        }
+                final double newCategoryMaxBudgetValue = newCategoryMaxBudgetValueString.isEmpty() ? -1 : (double) Math.round(Double.parseDouble(newCategoryMaxBudgetValueString) * 100) / 100;
 
-                        // check that the category value cannot be empty
-                        if (MaxBudgetValueString.isEmpty()) {
-                            itemValueErrorText.setText("Item Value cannot be empty!");
-                            return;
-                        }
+                // check that the category name cannot be empty
+                if (newCategoryName.isEmpty()) {
+                    categoryNameErrorText.setText("Category Name cannot be empty!");
+                    return;
+                }
 
-                        final double maxbudgetValue = MaxBudgetValueString.isEmpty() ? -1 : (double) Math.round(Double.parseDouble(MaxBudgetValueString) * 100) / 100;
-                        try {
-                            db.addCategory(new Category(CategoryName, maxbudgetValue));
-                        } catch (Exception e) {
-                            itemNameErrorText.setText("Item Name already exists!");
-                            return;
-                        }
+                // check that the category value cannot be empty
+                if (newCategoryMaxBudgetValueString.isEmpty()) {
+                    categoryValueErrorText.setText("Max Value for Category cannot be empty!");
+                    return;
+                }
 
-                        alertDialog.cancel();
+                try {
+                    db.addCategory(new Category(newCategoryName, newCategoryMaxBudgetValue));
+                } catch (Exception e) {
+                    categoryNameErrorText.setText("Category Name already exists!");
+                    return;
+                }
 
-                        reloadPage();
-                    }
-                });
-            }
+                addCategoryDialog.dismiss();
+
+                reloadPage();
+            });
         });
 
         return returnView;
@@ -144,11 +132,72 @@ public class Budgeting extends Fragment {
 
         // Create adapter
         CategoryDetailsArrayAdapter budgetArrayAdapter = new CategoryDetailsArrayAdapter(categoryArrayList, category -> {
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(view.getContext());
 
+            LayoutInflater layoutInflater = getLayoutInflater();
+
+            dialogBuilder.setNegativeButton("Cancel", (dialog, id) -> {
+                // User clicked Cancel button
+            });
+
+            dialogBuilder.setNeutralButton("Delete", (dialog, id) -> {
+                // User clicked Delete button
+
+                db.deleteCategory(category.getCategoryID());
+                reloadPage();
+            });
+
+            dialogBuilder.setPositiveButton("Ok", (dialog, id) -> {
+                // User clicked OK button
+            });
+
+            dialogBuilder.setTitle("Edit Category");
+
+            AlertDialog editCategoryDialog = dialogBuilder.create();
+
+            View alertView = layoutInflater.inflate(R.layout.category_details_dialog, null);
+
+            // initialize inputs
+            categoryNameEditText = alertView.findViewById(R.id.itemNameEditText);
+            categoryNameErrorText = alertView.findViewById(R.id.itemNameError);
+            categoryMaxValueEditText = alertView.findViewById(R.id.itemValueEditText);
+            categoryValueErrorText = alertView.findViewById(R.id.itemValueError);
+
+            // initialize fields to hold the previous value
+            categoryNameEditText.setHint(category.getCategoryName());
+            categoryMaxValueEditText.setHint(String.valueOf(category.getMaxValueToSpendInCategory()));
+
+            editCategoryDialog.setView(alertView);
+
+            editCategoryDialog.show();
+
+            editCategoryDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(alertDialogView -> {
+                // override the modal from closing
+                final String newCategoryName = categoryNameEditText.getText().toString();
+                final String newCategoryMaxBudgetValueString = categoryMaxValueEditText.getText().toString();
+
+                final double newCategoryMaxBudgetValue = newCategoryMaxBudgetValueString.isEmpty() ? -1 : (double) Math.round(Double.parseDouble(newCategoryMaxBudgetValueString) * 100) / 100;
+
+                // category object to store the changed category (set the default to the old category details)
+                Category updateCategory = new Category(category.getCategoryName(), category.getMaxValueToSpendInCategory());
+
+                if (!newCategoryName.isEmpty() && !newCategoryName.equals(category.getCategoryName())) updateCategory.setCategoryName(newCategoryName);
+                if (!newCategoryMaxBudgetValueString.isEmpty() && newCategoryMaxBudgetValue != category.getMaxValueToSpendInCategory()) updateCategory.setMaxValueToSpendInCategory(newCategoryMaxBudgetValue);
+
+                try {
+                    db.editCategory(category.getCategoryID(), updateCategory);
+                } catch (Exception e) {
+                    categoryNameErrorText.setText("Category Name already exists!");
+                    return;
+                }
+
+                editCategoryDialog.dismiss();
+
+                reloadPage();
+            });
         });
 
         // set adapter to RecyclerView
         categoryBudgetRecordItemView.setAdapter(budgetArrayAdapter);
-
     }
 }

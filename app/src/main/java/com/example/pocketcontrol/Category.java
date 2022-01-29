@@ -24,6 +24,14 @@ public class Category {
         this.maxValueToSpendInCategory = maxValueToSpendInCategory;
     }
 
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    public void setMaxValueToSpendInCategory(double maxValueToSpendInCategory) {
+        this.maxValueToSpendInCategory = maxValueToSpendInCategory;
+    }
+
     public int getCategoryID() {
         return this.categoryID;
     }

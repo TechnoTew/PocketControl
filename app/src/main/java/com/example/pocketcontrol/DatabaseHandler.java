@@ -142,6 +142,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void editCategory(int categoryID, Category newCategory) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_CATEGORY_NAME, newCategory.getCategoryName());
+        values.put(KEY_MAX_AMOUNT_TO_SPEND_IN_CATEGORY, newCategory.getMaxValueToSpendInCategory());
+
+        db.updateWithOnConflict(TABLE_CATEGORIES, values, String.format("%s = ?", KEY_CATEGORY_ID), new String[]{String.valueOf(categoryID)}, SQLiteDatabase.CONFLICT_ROLLBACK);
+    }
+
     public ArrayList<Category> getAllCategoriesWithItemTotals() {
         ArrayList<Category> categoryList = new ArrayList<Category>();
 

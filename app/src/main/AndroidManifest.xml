@@ -10,11 +10,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PocketControl">
 
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3940256099942544~3347511713"/>
+
         <activity
             android:name="Pages.NavActivity"
             android:exported="false"
             android:windowSoftInputMode ="stateAlwaysHidden"
             />
+
         <activity
             android:name="Pages.SplashScreen"
             android:exported="true">
@@ -24,6 +29,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name="Pages.FirstTimeSetup"
             android:exported="true"
@@ -35,6 +41,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>

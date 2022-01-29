@@ -96,39 +96,36 @@ public class Spendings extends Fragment {
 
             addItemDialog.show();
 
-            addItemDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // override the modal from closing
-                    final String itemName = itemNameEditText.getText().toString();
-                    final int itemCategoryID = ((Category) categorySpinner.getSelectedItem()).getCategoryID();
-                    final String itemValueString = itemValueEditText.getText().toString();
+            addItemDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(addItemDialogView -> {
+                // override the modal from closing
+                final String itemName = itemNameEditText.getText().toString();
+                final int itemCategoryID = ((Category) categorySpinner.getSelectedItem()).getCategoryID();
+                final String itemValueString = itemValueEditText.getText().toString();
 
-                    // check that the item name cannot be empty
-                    if (itemName.isEmpty()) {
-                        itemNameErrorText.setText("Item Name cannot be empty!");
-                        return;
-                    }
-
-                    // check that the item value cannot be empty
-                    if (itemValueString.isEmpty()) {
-                        itemValueErrorText.setText("Item Value cannot be empty!");
-                        return;
-                    }
-
-                    final double itemValue = itemValueString.isEmpty() ? -1 : (double) Math.round(Double.parseDouble(itemValueString) * 100) / 100;
-
-                    try {
-                        db.addItem(new Item(itemCategoryID, itemName, itemValue));
-                    } catch (Exception e) {
-                        itemNameErrorText.setText("Item Name already exists!");
-                        return;
-                    }
-
-                    addItemDialog.dismiss();
-
-                    reloadPage();
+                // check that the item name cannot be empty
+                if (itemName.isEmpty()) {
+                    itemNameErrorText.setText("Item Name cannot be empty!");
+                    return;
                 }
+
+                // check that the item value cannot be empty
+                if (itemValueString.isEmpty()) {
+                    itemValueErrorText.setText("Item Value cannot be empty!");
+                    return;
+                }
+
+                final double itemValue = itemValueString.isEmpty() ? -1 : (double) Math.round(Double.parseDouble(itemValueString) * 100) / 100;
+
+                try {
+                    db.addItem(new Item(itemCategoryID, itemName, itemValue));
+                } catch (Exception e) {
+                    itemNameErrorText.setText("Item Name already exists!");
+                    return;
+                }
+
+                addItemDialog.dismiss();
+
+                reloadPage();
             });
         });
 
@@ -166,13 +163,13 @@ public class Spendings extends Fragment {
 
             dialogBuilder.setTitle("Edit Item");
 
-            AlertDialog editDialog = dialogBuilder.create();
+            AlertDialog editItemDialog = dialogBuilder.create();
 
             LayoutInflater layoutInflater = getLayoutInflater();
             View alertView = layoutInflater.inflate(R.layout.item_details_dialog, null);
 
             // initialize inputs
-            itemNameEditText =alertView.findViewById(R.id.itemNameEditText);
+            itemNameEditText = alertView.findViewById(R.id.itemNameEditText);
             itemNameErrorText = alertView.findViewById(R.id.itemNameError);
             categorySpinner = alertView.findViewById(R.id.itemCategorySpinner);
             itemValueEditText = alertView.findViewById(R.id.itemValueEditText);
@@ -193,39 +190,36 @@ public class Spendings extends Fragment {
             itemValueEditText.setHint(String.valueOf(item.getItemValue()));
 
             // set the dialog to have the custom xml
-            editDialog.setView(alertView);
+            editItemDialog.setView(alertView);
 
-            editDialog.show();
+            editItemDialog.show();
 
-            editDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // override the modal from closing
-                    final String newItemName = itemNameEditText.getText().toString();
-                    final int newItemCategoryID = ((Category) categorySpinner.getSelectedItem()).getCategoryID();
-                    final String newItemValueString = itemValueEditText.getText().toString();
+            editItemDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(editDialogView -> {
+                // override the modal from closing
+                final String newItemName = itemNameEditText.getText().toString();
+                final int newItemCategoryID = ((Category) categorySpinner.getSelectedItem()).getCategoryID();
+                final String newItemValueString = itemValueEditText.getText().toString();
 
-                    final double newItemValue = newItemValueString.isEmpty() ? -1 : (double) Math.round(Double.parseDouble(newItemValueString) * 100) / 100;
+                final double newItemValue = newItemValueString.isEmpty() ? -1 : (double) Math.round(Double.parseDouble(newItemValueString) * 100) / 100;
 
-                    // item to store the changed item (set the default to the old item details)
-                    Item updateItem = new Item(item.getFkCategoryID(), item.getItemName(), item.getItemValue());
+                // item object to store the changed item (set the default to the old item details)
+                Item updateItem = new Item(item.getFkCategoryID(), item.getItemName(), item.getItemValue());
 
-                    if (!newItemName.isEmpty() && !newItemName.equals(item.getItemName())) updateItem.setItemName(newItemName);
-                    if (newItemCategoryID != item.getFkCategoryID()) updateItem.setFkCategoryID(newItemCategoryID);
-                    if (newItemValue != -1 && newItemValue != item.getItemValue()) updateItem.setItemValue(newItemValue); // ensure that the item value isn't invalid
+                if (!newItemName.isEmpty() && !newItemName.equals(item.getItemName())) updateItem.setItemName(newItemName);
+                if (newItemCategoryID != item.getFkCategoryID()) updateItem.setFkCategoryID(newItemCategoryID);
+                if (newItemValue != -1 && newItemValue != item.getItemValue()) updateItem.setItemValue(newItemValue); // ensure that the item value isn't invalid
 
-                    // try to update the item, if there is an error is because the item name already exists
-                    try {
-                        db.editItem(item.getItemID(), updateItem);
-                    } catch (Exception e) {
-                        itemNameErrorText.setText("Item Name already exists!");
-                        return;
-                    }
-
-                    editDialog.dismiss();
-
-                    reloadPage();
+                // try to update the item, if there is an error is because the item name already exists
+                try {
+                    db.editItem(item.getItemID(), updateItem);
+                } catch (Exception e) {
+                    itemNameErrorText.setText("Item Name already exists!");
+                    return;
                 }
+
+                editItemDialog.dismiss();
+
+                reloadPage();
             });
         });
 
