@@ -1,5 +1,6 @@
 package Pages;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -96,8 +97,12 @@ public class Overview extends Fragment {
     private void renderPieChart(PieChart pieChart, ArrayList<Category> categoriesWithItemTotals, int animationDurationMillis) {
         pieChart.getDescription().setEnabled(false);
         pieChart.setCenterText("Budget Overview");
+        pieChart.setHoleColor(Color.TRANSPARENT);
         pieChart.setCenterTextSize(15);
         pieChart.setUsePercentValues(true);
+        pieChart.setEntryLabelColor(Color.BLACK);
+        pieChart.setEntryLabelTypeface(Typeface.DEFAULT_BOLD);
+        pieChart.setMinAngleForSlices(25);
 
         ArrayList<PieEntry> entries = new ArrayList<>();
 
@@ -110,14 +115,16 @@ public class Overview extends Fragment {
         dataSet.setDrawIcons(false);
         dataSet.setSliceSpace(0f);
         dataSet.setSelectionShift(10f);
-        pieChart.setDrawEntryLabels(false);
+
+        // Outside values
+        dataSet.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
+        dataSet.setValueLinePart1OffsetPercentage(100f); // When valuePosition is OutsideSlice, indicates offset as percentage out of the slice size */
+        dataSet.setValueLinePart1Length(0.3f); // When valuePosition is OutsideSlice, indicates length of first half of the line */
+        dataSet.setValueLinePart2Length(0.8f); // When valuePosition is OutsideSlice, indicates length of second half of the line */
 
         //legend attributes
         Legend legend = pieChart.getLegend();
-        legend.setForm(Legend.LegendForm.CIRCLE);
-        legend.setTextSize(12);
-        legend.setFormSize(20);
-        legend.setFormToTextSpace(2);
+        legend.setEnabled(false);
 
 
         // add only material colours into the pie chart
@@ -130,12 +137,13 @@ public class Overview extends Fragment {
 
         PieData data = new PieData(dataSet);
         data.setValueFormatter(new PercentFormatter(chart));
-        data.setValueTextSize(16f);
+        data.setValueTextSize(12f);
         data.setValueTextColor(Color.BLACK);
         chart.setData(data);
 
         chart.invalidate();
         // animate the chart
         chart.animateY(animationDurationMillis);
+
     }
 }
