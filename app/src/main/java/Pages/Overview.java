@@ -118,10 +118,13 @@ public class Overview extends Fragment {
         pieChart.getDescription().setEnabled(false);
         pieChart.setCenterText(String.format("Amount Spent:\n$%.2f", totalAmountSpent));
         pieChart.setHoleColor(Color.TRANSPARENT);
-        pieChart.setCenterTextSize(15);
+        pieChart.setCenterTextSize(14);
+        pieChart.setCenterTextTypeface(Typeface.DEFAULT_BOLD);
         pieChart.setUsePercentValues(true);
-        pieChart.setEntryLabelColor(Color.BLACK);
+
+        pieChart.setEntryLabelColor(Color.DKGRAY);
         pieChart.setEntryLabelTypeface(Typeface.DEFAULT_BOLD);
+        pieChart.setEntryLabelTextSize(13);
         pieChart.setMinAngleForSlices(25);
 
         // Set data in pie chart
@@ -134,7 +137,7 @@ public class Overview extends Fragment {
         dataSet.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
         dataSet.setValueLinePart1OffsetPercentage(100f); // When valuePosition is OutsideSlice, indicates offset as percentage out of the slice size */
         dataSet.setValueLinePart1Length(0.3f); // When valuePosition is OutsideSlice, indicates length of first half of the line */
-        dataSet.setValueLinePart2Length(0.8f); // When valuePosition is OutsideSlice, indicates length of second half of the line */
+        dataSet.setValueLinePart2Length(0.3f); // When valuePosition is OutsideSlice, indicates length of second half of the line */
 
         // Legend attributes
         Legend legend = pieChart.getLegend();
