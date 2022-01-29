@@ -40,6 +40,8 @@ public class Overview extends Fragment {
     private SharedPreferenceHandler sph;
     private PieChart chart;
     private RecyclerView lastSpendingRecordsView;
+    private double totalAmountSpent;
+
 
     public Overview() {
         // Required empty public constructor
@@ -58,6 +60,7 @@ public class Overview extends Fragment {
         db = new DatabaseHandler(this.getContext());
 
         ArrayList<Category> categoriesWithItemTotals = db.getAllCategoriesWithItemTotals();
+
         // initialize pie chart
         chart = view.findViewById(R.id.pieChart);
         this.renderPieChart(chart, categoriesWithItemTotals, 500);
@@ -95,8 +98,25 @@ public class Overview extends Fragment {
     }
 
     private void renderPieChart(PieChart pieChart, ArrayList<Category> categoriesWithItemTotals, int animationDurationMillis) {
+        ArrayList<PieEntry> entries = new ArrayList<>();
+
+        double totalAmountSpent = categoriesWithItemTotals.stream().mapToDouble(category -> category.getTotalValueSpentInCategory()).sum();
+
+        // adding the items with their categories as labels
+        for (Category category : categoriesWithItemTotals) {
+            // if category is empty skip adding it into the pie chart
+            if (category.getTotalValueSpentInCategory() <= 0) continue;
+
+            // if category percentage rounds down to 0, skip adding it too
+            System.out.println(category.getMaxValueToSpendInCategory());
+            if (Math.floor(category.getTotalValueSpentInCategory() / totalAmountSpent * 100) == 0) continue;
+
+            entries.add(new PieEntry((float) category.getTotalValueSpentInCategory(), category.getCategoryName()));
+        }
+
+        pieChart.setExtraOffsets(10, 10, 10, 10);
         pieChart.getDescription().setEnabled(false);
-        pieChart.setCenterText("Budget Overview");
+        pieChart.setCenterText(String.format("Amount Spent:\n$%.2f", totalAmountSpent));
         pieChart.setHoleColor(Color.TRANSPARENT);
         pieChart.setCenterTextSize(15);
         pieChart.setUsePercentValues(true);
@@ -104,13 +124,7 @@ public class Overview extends Fragment {
         pieChart.setEntryLabelTypeface(Typeface.DEFAULT_BOLD);
         pieChart.setMinAngleForSlices(25);
 
-        ArrayList<PieEntry> entries = new ArrayList<>();
-
-        // adding the items with their categories as labels
-        for (Category category : categoriesWithItemTotals) {
-            entries.add(new PieEntry((float) category.getTotalValueSpentInCategory(), category.getCategoryName()));
-        }
-
+        // Set data in pie chart
         PieDataSet dataSet = new PieDataSet(entries, "Budget Overview");
         dataSet.setDrawIcons(false);
         dataSet.setSliceSpace(0f);
@@ -122,10 +136,9 @@ public class Overview extends Fragment {
         dataSet.setValueLinePart1Length(0.3f); // When valuePosition is OutsideSlice, indicates length of first half of the line */
         dataSet.setValueLinePart2Length(0.8f); // When valuePosition is OutsideSlice, indicates length of second half of the line */
 
-        //legend attributes
+        // Legend attributes
         Legend legend = pieChart.getLegend();
         legend.setEnabled(false);
-
 
         // add only material colours into the pie chart
         ArrayList<Integer> colors = new ArrayList<>();
@@ -142,8 +155,8 @@ public class Overview extends Fragment {
         chart.setData(data);
 
         chart.invalidate();
+
         // animate the chart
         chart.animateY(animationDurationMillis);
-
     }
 }
