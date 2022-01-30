@@ -30,6 +30,11 @@ public class Budgeting extends Fragment {
     private EditText categoryMaxValueEditText;
     private TextView categoryValueErrorText;
 
+    // variables to initialize the max length/ amount of category details
+    private int maxNoOfCharForCategoryName = 14;
+    private double minCategoryMaxValue = 1;
+    private double maxCategoryMaxValue = 100000;
+
     public Budgeting() {
         // Required empty public constructor
     }
@@ -98,9 +103,21 @@ public class Budgeting extends Fragment {
                     return;
                 }
 
+                // check that the category name length is not exceeding (maxNoOfCharForCategoryName) characters
+                if (newCategoryName.length() > maxNoOfCharForCategoryName) {
+                    categoryNameErrorText.setText("Category Name cannot exceed 14 characters!");
+                    return;
+                }
+
                 // check that the category value cannot be empty
                 if (newCategoryMaxBudgetValueString.isEmpty()) {
                     categoryValueErrorText.setText("Max Value for Category cannot be empty!");
+                    return;
+                }
+
+                // check that the category max value cannot be below (minCategoryMaxValue), or be above (maxCategoryMaxValue)
+                if (Double.compare(newCategoryMaxBudgetValue, minCategoryMaxValue) < 0 || Double.compare(newCategoryMaxBudgetValue, maxCategoryMaxValue) > 0) {
+                    categoryValueErrorText.setText(Double.compare(newCategoryMaxBudgetValue, minCategoryMaxValue) < 0 ? String.format("Min Value for Category cannot be under $%.2f", minCategoryMaxValue) : String.format("Max Value for Category cannot be above $%.2f", maxCategoryMaxValue));
                     return;
                 }
 
@@ -165,7 +182,7 @@ public class Budgeting extends Fragment {
 
             // initialize fields to hold the previous value
             categoryNameEditText.setHint(category.getCategoryName());
-            categoryMaxValueEditText.setHint(String.valueOf(category.getMaxValueToSpendInCategory()));
+            categoryMaxValueEditText.setHint(String.format("$%.2f", category.getMaxValueToSpendInCategory()));
 
             editCategoryDialog.setView(alertView);
 
@@ -180,6 +197,18 @@ public class Budgeting extends Fragment {
 
                 // category object to store the changed category (set the default to the old category details)
                 Category updateCategory = new Category(category.getCategoryName(), category.getMaxValueToSpendInCategory());
+
+                // check that the category name length is not exceeding (maxNoOfCharForCategoryName) characters
+                if (newCategoryName.length() > maxNoOfCharForCategoryName) {
+                    categoryNameErrorText.setText("Category Name cannot exceed 14 characters!");
+                    return;
+                }
+
+                // check that the category max value cannot be below (minCategoryMaxValue), or be above (maxCategoryMaxValue)
+                if (Double.compare(newCategoryMaxBudgetValue, minCategoryMaxValue) < 0 || Double.compare(newCategoryMaxBudgetValue, maxCategoryMaxValue) > 0) {
+                    categoryValueErrorText.setText(Double.compare(newCategoryMaxBudgetValue, minCategoryMaxValue) < 0 ? String.format("Min Value for Category cannot be under $%.2f", minCategoryMaxValue) : String.format("Max Value for Category cannot be above $%.2f", maxCategoryMaxValue));
+                    return;
+                }
 
                 if (!newCategoryName.isEmpty() && !newCategoryName.equals(category.getCategoryName())) updateCategory.setCategoryName(newCategoryName);
                 if (!newCategoryMaxBudgetValueString.isEmpty() && newCategoryMaxBudgetValue != category.getMaxValueToSpendInCategory()) updateCategory.setMaxValueToSpendInCategory(newCategoryMaxBudgetValue);

@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -21,6 +22,7 @@ import com.example.pocketcontrol.Item;
 import com.example.pocketcontrol.ItemArrayAdapter;
 import com.example.pocketcontrol.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 
@@ -33,6 +35,10 @@ public class Spendings extends Fragment {
     private Spinner categorySpinner;
     private EditText itemValueEditText;
     private TextView itemValueErrorText;
+
+    private int maxNoOfCharForItemName = 50;
+    private double minItemValue = 1;
+    private double maxItemValue = 100000;
 
     public Spendings() {
         // Required empty public constructor
@@ -62,7 +68,6 @@ public class Spendings extends Fragment {
 
         addItemButton.setOnClickListener(v -> {
             AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(returnView.getContext());
-
 
             dialogBuilder.setNegativeButton("Cancel", (dialog, id) -> {
                 // User clicked Cancel button
@@ -108,16 +113,28 @@ public class Spendings extends Fragment {
                     return;
                 }
 
+                // check that the item name cannot exceed (maxNoOfCharForItemName) characters
+                if (itemName.length() > maxNoOfCharForItemName) {
+                    itemNameErrorText.setText("Item Name cannot exceed 14 characters!");
+                    return;
+                }
+
                 // check that the item value cannot be empty
                 if (itemValueString.isEmpty()) {
                     itemValueErrorText.setText("Item Value cannot be empty!");
                     return;
                 }
 
-                final double itemValue = itemValueString.isEmpty() ? -1 : (double) Math.round(Double.parseDouble(itemValueString) * 100) / 100;
+                final double newItemValue = itemValueString.isEmpty() ? -1 : (double) Math.round(Double.parseDouble(itemValueString) * 100) / 100;
+
+                // check that the item value cannot be below (minItemValue), or above (maxItemValue)
+                if (Double.compare(newItemValue, minItemValue) < 0 || Double.compare(newItemValue, maxItemValue) > 0) {
+                    itemValueErrorText.setText(Double.compare(newItemValue, minItemValue) < 0 ? String.format("Min Value for Category cannot be under $%.2f", minItemValue) : String.format("Max Value for Category cannot be above $%.2f", maxItemValue));
+                    return;
+                }
 
                 try {
-                    db.addItem(new Item(itemCategoryID, itemName, itemValue));
+                    db.addItem(new Item(itemCategoryID, itemName, newItemValue));
                 } catch (Exception e) {
                     itemNameErrorText.setText("Item Name already exists!");
                     return;
@@ -187,7 +204,7 @@ public class Spendings extends Fragment {
             itemNameEditText.setHint(item.getItemName());
 
             // set the current selected item value
-            itemValueEditText.setHint(String.valueOf(item.getItemValue()));
+            itemValueEditText.setHint(String.format("$%.2f", item.getItemValue()));
 
             // set the dialog to have the custom xml
             editItemDialog.setView(alertView);
@@ -201,6 +218,18 @@ public class Spendings extends Fragment {
                 final String newItemValueString = itemValueEditText.getText().toString();
 
                 final double newItemValue = newItemValueString.isEmpty() ? -1 : (double) Math.round(Double.parseDouble(newItemValueString) * 100) / 100;
+
+                // check that the item name cannot exceed (maxNoOfCharForItemName) characters
+                if (newItemName.length() > maxNoOfCharForItemName) {
+                    itemNameErrorText.setText("Item Name cannot exceed 14 characters!");
+                    return;
+                }
+
+                // check that the item value cannot be below (minItemValue), or above (maxItemValue)
+                if (Double.compare(newItemValue, minItemValue) < 0 || Double.compare(newItemValue, maxItemValue) > 0) {
+                    itemValueErrorText.setText(Double.compare(newItemValue, minItemValue) < 0 ? String.format("Min Value for Category cannot be under $%.2f", minItemValue) : String.format("Max Value for Category cannot be above $%.2f", maxItemValue));
+                    return;
+                }
 
                 // item object to store the changed item (set the default to the old item details)
                 Item updateItem = new Item(item.getFkCategoryID(), item.getItemName(), item.getItemValue());
