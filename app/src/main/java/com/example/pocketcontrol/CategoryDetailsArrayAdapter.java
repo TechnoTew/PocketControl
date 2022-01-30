@@ -45,9 +45,9 @@ public class CategoryDetailsArrayAdapter extends RecyclerView.Adapter<CategoryDe
         });
 
         // get colour
-        okayColour = ContextCompat.getColor(view.getContext(), R.color.Green);
-        warningColour = ContextCompat.getColor(view.getContext(), R.color.Orange);
-        dangerColour = ContextCompat.getColor(view.getContext(), R.color.IndianRed);
+        okayColour = ContextCompat.getColor(view.getContext(), R.color.Blue);
+        warningColour = ContextCompat.getColor(view.getContext(), R.color.VeryDarkOrange);
+        dangerColour = ContextCompat.getColor(view.getContext(), R.color.FireBrick);
 
         return myViewHolder;
     }

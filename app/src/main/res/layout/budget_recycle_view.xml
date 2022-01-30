@@ -27,6 +27,8 @@
             <com.google.android.material.progressindicator.LinearProgressIndicator
                 android:id="@+id/progressBar"
                 android:layout_width="match_parent"
+                app:trackColor="@color/Red"
+                app:indicatorColor="@color/black"
                 android:layout_height="wrap_content" />
         </LinearLayout>
 
