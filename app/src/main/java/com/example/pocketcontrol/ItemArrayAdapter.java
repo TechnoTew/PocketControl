@@ -18,7 +18,6 @@ public class ItemArrayAdapter extends RecyclerView.Adapter<ItemArrayAdapter.Item
     public ItemArrayAdapter(ArrayList<Item> itemArrayList, ItemClickListener itemClickListener) {
         this.itemArrayList = itemArrayList;
         this.itemClickListener = itemClickListener;
-
     }
 
     @NonNull
@@ -31,12 +30,7 @@ public class ItemArrayAdapter extends RecyclerView.Adapter<ItemArrayAdapter.Item
         final ItemViewHolder myViewHolder = new ItemViewHolder(view);
 
         // Item Clicks
-        myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                itemClickListener.onItemClicked(itemArrayList.get(myViewHolder.getLayoutPosition()));
-            }
-        });
+        myViewHolder.itemView.setOnClickListener(v -> itemClickListener.onItemClicked(itemArrayList.get(myViewHolder.getLayoutPosition())));
 
         return myViewHolder;
     }
@@ -47,7 +41,7 @@ public class ItemArrayAdapter extends RecyclerView.Adapter<ItemArrayAdapter.Item
         holder.itemName.setText(itemArrayList.get(position).getItemName());
 
         // Set Item Value
-        holder.itemValue.setText(String.format("$%.2f", itemArrayList.get(position).getItemValue()));
+        holder.itemValue.setText(String.format("-$%.2f", itemArrayList.get(position).getItemValue()));
     }
 
     @Override
