@@ -11,12 +11,15 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.example.pocketcontrol.AdHandler;
+import com.example.pocketcontrol.BudgetMonthRecord;
 import com.example.pocketcontrol.Category;
 import com.example.pocketcontrol.DatabaseHandler;
 import com.example.pocketcontrol.Item;
 import com.example.pocketcontrol.R;
 import com.example.pocketcontrol.SharedPreferenceHandler;
 
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public class FirstTimeSetup extends AppCompatActivity {
@@ -54,12 +57,14 @@ public class FirstTimeSetup extends AppCompatActivity {
         // uncomment should u need to replace all the items with default
         // db.wipeAllItems();
 
+        // new Timestamp(System.currentTimeMillis())
         if (db.getAllItems(false).size() == 0) {
-            db.addItem(new Item(1, "Chicken Rice", 3.50));
-            db.addItem(new Item(1, "Cheese Chicken Chop", 3.50));
-            db.addItem(new Item(2, "Ez-Link Card Topup", 20.00));
-            db.addItem(new Item(2, "Monthly Mobile Plan Subscription", 13.00));
-            db.addItem(new Item(3, "Logitech G304 Mouse", 79.90));
+            db.addItem(new Item(1, "Chicken Rice", 3.50, Timestamp.valueOf("2021-11-05 14:06:48")));
+            db.addItem(new Item(1, "Cheese Chicken Chop", 3.50, Timestamp.valueOf("2021-11-05 14:06:48")));
+            db.addItem(new Item(4, "Chocolate Ice Cream", 3.50, Timestamp.valueOf("2021-11-05 14:36:48")));
+            db.addItem(new Item(2, "Ez-Link Card Topup", 20.00, Timestamp.valueOf("2021-12-08 12:37:51")));
+            db.addItem(new Item(2, "Monthly Mobile Plan Subscription", 13.00, Timestamp.valueOf("2021-12-08 12:36:48")));
+            db.addItem(new Item(3, "Logitech G304 Mouse", 79.90, new Timestamp(System.currentTimeMillis())));
             db.addItem(new Item(4, "Waffle", 1.00));
         }
 
@@ -73,6 +78,11 @@ public class FirstTimeSetup extends AppCompatActivity {
         for (Item item : items) {
             Log.d("", String.format("%s (%s): $%.2f", item.getItemName(), item.getItemCategoryName()
                     , item.getItemValue()));
+        }
+
+        ArrayList<BudgetMonthRecord> budgetMonthRecords = db.getAmountSpentPerMonth();
+        for (BudgetMonthRecord budgetMonthRecord : budgetMonthRecords) {
+            Log.d("", budgetMonthRecord.debugInfo());
         }
 
         sph = new SharedPreferenceHandler(getApplicationContext());

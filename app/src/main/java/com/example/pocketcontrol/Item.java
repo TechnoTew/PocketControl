@@ -1,5 +1,7 @@
 package com.example.pocketcontrol;
 
+import java.sql.Timestamp;
+
 public class Item {
 
     private int itemID;
@@ -7,15 +9,27 @@ public class Item {
     private String itemCategoryName;
     private String itemName;
     private double itemValue;
-
+    private Timestamp itemTimestamp;
 
     // constructor
-    public Item(int id, int categoryID, String categoryName, String name, double value) {
+    public Item(int id, int categoryID, String categoryName, String name, double value, Timestamp timestamp) {
         this.itemID = id;
         this.fkCategoryID = categoryID;
         this.itemCategoryName = categoryName;
         this.itemName = name;
         this.itemValue = value;
+        this.itemTimestamp = timestamp;
+    }
+
+    public Timestamp getItemTimestamp() {
+        return itemTimestamp;
+    }
+
+    public Item(int categoryID, String name, double value, Timestamp timestamp) {
+        this.fkCategoryID = categoryID;
+        this.itemName = name;
+        this.itemValue = value;
+        this.itemTimestamp = timestamp;
     }
 
     public Item(int categoryID, String name, double value) {
@@ -61,6 +75,6 @@ public class Item {
     }
 
     public String debugItemInfo() {
-        return String.format("Item Name: %s\nItem FK_Category ID: %d\nItem Category name: %s\nItem Value: $%.2f", this.itemName, this.fkCategoryID, this.itemCategoryName, this.itemValue);
+        return String.format("Item Name: %s\nItem FK_Category ID: %d\nItem Category name: %s\nItem Value: $%.2f\nItem Timestamp: %s", this.itemName, this.fkCategoryID, this.itemCategoryName, this.itemValue, this.itemTimestamp);
     }
 }
