@@ -110,7 +110,6 @@ public class Overview extends Fragment {
         pieChart.setCenterTextSize(14);
         pieChart.setCenterTextTypeface(Typeface.DEFAULT_BOLD);
         pieChart.setUsePercentValues(true);
-
         pieChart.setEntryLabelColor(Color.DKGRAY);
         pieChart.setEntryLabelTypeface(Typeface.DEFAULT_BOLD);
         pieChart.setEntryLabelTextSize(13);
