@@ -6,6 +6,12 @@
         android:title="Overview"
         android:icon="@drawable/vector_overview"
         />
+
+    <item
+        android:id="@id/analytics"
+        android:title="Analytics"
+        android:icon="@drawable/vector_analytics"
+    />
     <item
         android:id="@+id/spendings"
         android:title="Spendings"

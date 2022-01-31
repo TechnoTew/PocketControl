@@ -35,6 +35,10 @@ public class NavActivity extends AppCompatActivity {
                 selectedFragment = new Overview();
                 this.setTitle("Overview");
                 break;
+            case R.id.analytics:
+                selectedFragment = new Analytics();
+                this.setTitle("Analytics");
+                break;
             case R.id.spendings:
                 selectedFragment = new Spendings();
                 this.setTitle("Spendings");

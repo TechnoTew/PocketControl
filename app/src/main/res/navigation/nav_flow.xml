@@ -24,4 +24,9 @@
         android:name="Pages.Settings"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/analytics"
+        android:name="Pages.Analytics"
+        android:label="fragment_analytics"
+        tools:layout="@layout/fragment_analytics" />
 </navigation>
