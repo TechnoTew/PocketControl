@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.pocketcontrol.AdHandler;
 import com.example.pocketcontrol.Category;
 import com.example.pocketcontrol.CategoryDetailsArrayAdapter;
 import com.example.pocketcontrol.DatabaseHandler;
@@ -52,6 +53,10 @@ public class Budgeting extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View returnView = inflater.inflate(R.layout.fragment_budgeting, container, false);
+
+        // roll a chance from 1 to 10 to show an ad
+        AdHandler adHandler = new AdHandler(this.getActivity());
+        adHandler.showAdAtRandom(10);
 
         db = new DatabaseHandler(this.getContext());
 

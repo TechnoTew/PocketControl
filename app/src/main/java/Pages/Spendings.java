@@ -59,7 +59,10 @@ public class Spendings extends Fragment {
         // Inflate the layout for this fragment
         View returnView = inflater.inflate(R.layout.fragment_spendings, container, false);
 
-        new AdHandler().showAd(this.getActivity());
+        // roll a chance from 1 to 10 to show an ad
+        AdHandler adHandler = new AdHandler(this.getActivity());
+        adHandler.showAdAtRandom(10);
+
         // Initialize database handler
         db = new DatabaseHandler(this.getContext());
 

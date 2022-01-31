@@ -16,6 +16,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.pocketcontrol.AdHandler;
 import com.example.pocketcontrol.DatabaseHandler;
 import com.example.pocketcontrol.KeyboardManager;
 import com.example.pocketcontrol.R;
@@ -73,6 +74,10 @@ public class Settings extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View returnView = inflater.inflate(R.layout.fragment_settings, container, false);
+
+        // roll a chance from 1 to 10 to show an ad
+        AdHandler adHandler = new AdHandler(this.getActivity());
+        adHandler.showAdAtRandom(10);
 
         db = new DatabaseHandler(getContext());
         sph = new SharedPreferenceHandler(getContext());

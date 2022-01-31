@@ -1,11 +1,8 @@
 package Pages;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -19,16 +16,6 @@ import com.example.pocketcontrol.DatabaseHandler;
 import com.example.pocketcontrol.Item;
 import com.example.pocketcontrol.R;
 import com.example.pocketcontrol.SharedPreferenceHandler;
-import com.google.android.gms.ads.AdError;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.FullScreenContentCallback;
-import com.google.android.gms.ads.LoadAdError;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
-import com.google.android.gms.ads.interstitial.InterstitialAd;
-import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
-
 
 import java.util.ArrayList;
 
@@ -43,8 +30,9 @@ public class FirstTimeSetup extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first_time_setup);
 
-        final AdHandler adHandler = new AdHandler();
-        adHandler.initialize(this);
+        // roll a chance from 1 to 10 to show an ad
+        AdHandler adHandler = new AdHandler(this);
+        adHandler.showAdAtRandom(10);
 
         // uncomment should u need to rebuild whole database
         // getApplicationContext().deleteDatabase("PocketControl");

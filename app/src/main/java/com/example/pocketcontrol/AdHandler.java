@@ -13,20 +13,27 @@ import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 
+import java.util.Random;
+
 public class AdHandler {
     private InterstitialAd advertisement;
+    private Activity activity;
 
-    public void initialize(Activity currentActivity) {
+    public AdHandler(Activity currentActivity) {
+        this.activity = currentActivity;
+    }
+
+    public void initialize() {
         // initialize ad module
-        MobileAds.initialize(currentActivity, initializationStatus -> {
+        MobileAds.initialize(activity, initializationStatus -> {
         });
     }
 
-    public void showAd(Activity currentActivity) {
+    public void showAd() {
         // load ad
         AdRequest adRequest = new AdRequest.Builder().build();
 
-        advertisement.load(currentActivity,"ca-app-pub-3940256099942544/1033173712", adRequest,
+        advertisement.load(activity,"ca-app-pub-3940256099942544/1033173712", adRequest,
                 new InterstitialAdLoadCallback() {
                     @Override
                     public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
@@ -59,7 +66,7 @@ public class AdHandler {
                         });
 
                         if (advertisement != null) {
-                            advertisement.show(currentActivity);
+                            advertisement.show(activity);
                         }
 
                     }
@@ -75,5 +82,16 @@ public class AdHandler {
 
     }
 
+    public void showAdAtRandom(int oneInXChanceAd) {
+        Random randomGenerator = new Random();
+
+        // generate random number from 0 to (X-1)
+        final int randomNumber = randomGenerator.nextInt(oneInXChanceAd);
+
+        // check if the random number if 0, then show the ad
+        if (randomNumber == 0) {
+            this.showAd();
+        }
+    }
 
 }

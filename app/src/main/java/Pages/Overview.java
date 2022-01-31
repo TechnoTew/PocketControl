@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.graphics.Color;
 
+import com.example.pocketcontrol.AdHandler;
 import com.example.pocketcontrol.Category;
 import com.example.pocketcontrol.DatabaseHandler;
 import com.example.pocketcontrol.Item;
@@ -49,6 +50,11 @@ public class Overview extends Fragment {
 
         sph = new SharedPreferenceHandler(this.getContext());
         View view = inflater.inflate(R.layout.fragment_overview, container, false);
+
+        // roll a chance from 1 to 10 to show an ad
+        AdHandler adHandler = new AdHandler(this.getActivity());
+        adHandler.showAdAtRandom(10);
+
         TextView welcomeMessage = (TextView) view.findViewById(R.id.welcomeMessage);
 
         welcomeMessage.setText(String.format("Hi, %s", sph.getUserName()));
@@ -92,7 +98,6 @@ public class Overview extends Fragment {
             if (category.getTotalValueSpentInCategory() <= 0) continue;
 
             // if category percentage rounds down to 0, skip adding it too
-            System.out.println(category.getMaxValueToSpendInCategory());
             if (Math.floor(category.getTotalValueSpentInCategory() / totalAmountSpent * 100) == 0) continue;
 
             entries.add(new PieEntry((float) category.getTotalValueSpentInCategory(), category.getCategoryName()));

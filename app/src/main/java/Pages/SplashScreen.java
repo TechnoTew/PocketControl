@@ -1,5 +1,6 @@
 package Pages;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -8,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.pocketcontrol.AdHandler;
 import com.example.pocketcontrol.R;
 
 public class SplashScreen extends AppCompatActivity {
@@ -24,6 +26,8 @@ public class SplashScreen extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getSupportActionBar().hide();
 
+        Activity currentActivity = this;
+
         // Launch the layout -> splash.xml
         setContentView(R.layout.splash);
 
@@ -39,6 +43,10 @@ public class SplashScreen extends AppCompatActivity {
                     e.printStackTrace();
                 } finally
                 {
+                    // First initialize the advertisement component of the app
+                    final AdHandler adHandler = new AdHandler(currentActivity);
+                    adHandler.initialize();
+
                     // Launch the MainActivity class
                     Intent intent = new Intent(SplashScreen.this, FirstTimeSetup.class);
                     startActivity(intent);

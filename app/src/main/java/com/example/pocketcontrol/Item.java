@@ -8,6 +8,7 @@ public class Item {
     private String itemName;
     private double itemValue;
 
+
     // constructor
     public Item(int id, int categoryID, String categoryName, String name, double value) {
         this.itemID = id;
