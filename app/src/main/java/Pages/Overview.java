@@ -133,6 +133,9 @@ public class Overview extends Fragment {
         for (int c : ColorTemplate.MATERIAL_COLORS)
             colors.add(c);
 
+        for (int c : ColorTemplate.JOYFUL_COLORS)
+            colors.add(c);
+
         dataSet.setColors(colors);
 
         PieData data = new PieData(dataSet);
