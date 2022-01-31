@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.example.pocketcontrol.AdHandler;
 import com.example.pocketcontrol.Category;
 import com.example.pocketcontrol.DatabaseHandler;
 import com.example.pocketcontrol.Item;
@@ -58,6 +59,7 @@ public class Spendings extends Fragment {
         // Inflate the layout for this fragment
         View returnView = inflater.inflate(R.layout.fragment_spendings, container, false);
 
+        new AdHandler().showAd(this.getActivity());
         // Initialize database handler
         db = new DatabaseHandler(this.getContext());
 

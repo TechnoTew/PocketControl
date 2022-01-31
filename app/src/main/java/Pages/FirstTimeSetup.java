@@ -3,7 +3,9 @@ package Pages;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -11,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
+import com.example.pocketcontrol.AdHandler;
 import com.example.pocketcontrol.Category;
 import com.example.pocketcontrol.DatabaseHandler;
 import com.example.pocketcontrol.Item;
@@ -34,17 +37,14 @@ public class FirstTimeSetup extends AppCompatActivity {
     private EditText nameField;
     private DatabaseHandler db;
     private SharedPreferenceHandler sph;
-    private InterstitialAd interstitialAd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first_time_setup);
 
-        // initialize ad module
-        MobileAds.initialize(this, initializationStatus -> {
-        });
-
+        final AdHandler adHandler = new AdHandler();
+        adHandler.initialize(this);
 
         // uncomment should u need to rebuild whole database
         // getApplicationContext().deleteDatabase("PocketControl");
