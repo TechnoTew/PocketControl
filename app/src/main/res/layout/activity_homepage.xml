@@ -11,13 +11,13 @@
         android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/GreenVariant1"
+        android:background="?android:solidColor"
         app:itemRippleColor="@color/GreenRippleColour"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:itemTextColor="@color/black"
-        app:itemIconTint="@color/black"
+        app:itemTextColor="?android:textColorPrimary"
+        app:itemIconTint="?android:textColorPrimary"
         app:menu="@menu/bot_menu" />
 
     <FrameLayout

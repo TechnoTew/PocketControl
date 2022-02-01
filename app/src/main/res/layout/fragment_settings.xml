@@ -48,7 +48,7 @@
         android:layout_width="300dp"
         android:layout_height="64dp"
         android:layout_marginBottom="5dp"
-        android:backgroundTint="@color/Green"
+        android:backgroundTint="@color/GreenVariant1"
         android:text="Save Settings"
         android:textSize="18sp"
         android:textColor="@color/black"
