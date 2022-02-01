@@ -47,7 +47,7 @@ public class FirstTimeSetup extends AppCompatActivity {
         // db.wipeAllCategories();
 
         // check if there is information in the database, if there is not, put in some default data
-        if (db.getAllCategoriesWithItemTotals().size() == 0) {
+        if (db.getAllCategoriesWithItemTotals(false).size() == 0) {
             db.addCategory(new Category("Food", 100.00));
             db.addCategory(new Category("Essentials", 50));
             db.addCategory(new Category("Entertainment", 100.00));
@@ -58,7 +58,7 @@ public class FirstTimeSetup extends AppCompatActivity {
         // db.wipeAllItems();
 
         // new Timestamp(System.currentTimeMillis())
-        if (db.getAllItems(false).size() == 0) {
+        if (db.getAllItems(false, false).size() == 0) {
             db.addItem(new Item(1, "Chicken Rice", 3.50, Timestamp.valueOf("2021-11-05 14:06:48")));
             db.addItem(new Item(1, "Cheese Chicken Chop", 3.50, Timestamp.valueOf("2021-11-05 14:06:48")));
             db.addItem(new Item(4, "Chocolate Ice Cream", 3.50, Timestamp.valueOf("2021-11-05 14:36:48")));
@@ -68,13 +68,13 @@ public class FirstTimeSetup extends AppCompatActivity {
             db.addItem(new Item(4, "Waffle", 1.00));
         }
 
-        ArrayList<Category> categoriesWithItemTotals = db.getAllCategoriesWithItemTotals();
+        ArrayList<Category> categoriesWithItemTotals = db.getAllCategoriesWithItemTotals(false);
         Log.d("", "All Categories with item totals: ");
         for (Category category : categoriesWithItemTotals) {
             Log.d("", String.format("%s: $%.2f", category.getCategoryName(), category.getTotalValueSpentInCategory()));
         }
 
-        ArrayList<Item> items = db.getAllItems(false);
+        ArrayList<Item> items = db.getAllItems(false, false);
         for (Item item : items) {
             Log.d("", String.format("%s (%s): $%.2f", item.getItemName(), item.getItemCategoryName()
                     , item.getItemValue()));

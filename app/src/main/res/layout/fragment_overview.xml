@@ -45,10 +45,10 @@
         android:id="@+id/recentItemsLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Recent Items Added"
+        android:text="Items added this Month"
+        android:textColor="?android:textColorPrimary"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:textColor="?android:textColorPrimary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pieChart" />
 

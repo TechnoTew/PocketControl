@@ -60,7 +60,7 @@ public class Budgeting extends Fragment {
 
         db = new DatabaseHandler(this.getContext());
 
-        ArrayList<Category> categories = db.getAllCategoriesWithItemTotals();
+        ArrayList<Category> categories = db.getAllCategoriesWithItemTotals(false);
 
         generateUIForRecycleView(returnView, categories);
 
