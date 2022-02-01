@@ -26,6 +26,7 @@
         android:layout_height="39dp"
         android:layout_marginBottom="50dp"
         android:text="@string/app_company"
+        android:textColor="@color/black"
         android:textAlignment="center"
         android:textAllCaps="false"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
