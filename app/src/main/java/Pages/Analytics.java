@@ -1,21 +1,12 @@
 package Pages;
 
-import android.graphics.Color;
-import android.graphics.DashPathEffect;
-import android.graphics.drawable.Drawable;
-import android.os.Bundle;
-
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.SeekBar;
-import android.widget.TextView;
 
 
 import com.example.pocketcontrol.AdHandler;
@@ -24,29 +15,24 @@ import com.example.pocketcontrol.BudgetDayRecord;
 import com.example.pocketcontrol.BudgetMonthRecord;
 import com.example.pocketcontrol.BudgetMonthRecordArrayAdapter;
 import com.example.pocketcontrol.DatabaseHandler;
-import com.example.pocketcontrol.Item;
 import com.example.pocketcontrol.R;
+import com.example.pocketcontrol.ThemeManager;
 import com.github.mikephil.charting.charts.*;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.*;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
-import com.github.mikephil.charting.formatter.IFillFormatter;
-import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
-import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-import com.github.mikephil.charting.utils.Utils;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class Analytics extends Fragment {
 
     private DatabaseHandler db;
     private LineChart chart;
     private RecyclerView expenditureHistoryData;
-
+    private int chartColour;
+    private int chartInfoColour;
 
     public Analytics() {
         super(R.layout.fragment_analytics);
@@ -62,6 +48,14 @@ public class Analytics extends Fragment {
 
         // activate db
         db = new DatabaseHandler(this.getContext());
+
+        if (ThemeManager.isDarkTheme(this.getView())) {
+            chartColour = ContextCompat.getColor(this.getContext(), R.color.Yellow);
+            chartInfoColour = ContextCompat.getColor(this.getContext(), R.color.White);
+        } else {
+            chartColour = ContextCompat.getColor(this.getContext(), R.color.Blue);
+            chartInfoColour = ContextCompat.getColor(this.getContext(), R.color.Black);
+        }
 
         generateUIForRecycleView(this.getView(), db.getAmountSpentPerMonth(true));
         
@@ -96,13 +90,14 @@ public class Analytics extends Fragment {
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setTextSize(10f);
         xAxis.setGranularityEnabled(true);
-        xAxis.setTextColor(R.color.white);
-        xAxis.setAxisLineColor(R.color.black);
+        xAxis.setTextColor(this.chartInfoColour);
+        xAxis.setAxisLineColor(this.chartInfoColour);
 
         YAxis rightAxis = chart.getAxisRight();
         rightAxis.setDrawLabels(false);
         rightAxis.setDrawAxisLine(false);
-        rightAxis.enableGridDashedLine(10f, 10f, 10f);
+        rightAxis.disableAxisLineDashedLine();
+        rightAxis.disableGridDashedLine();
         rightAxis.setLabelCount(8, false);
 
         rightAxis.setSpaceTop(15f);
@@ -110,12 +105,14 @@ public class Analytics extends Fragment {
 
         YAxis leftAxis = chart.getAxisLeft();
         leftAxis.setDrawAxisLine(false);
-        leftAxis.enableGridDashedLine(10f, 10f, 10f);
-        leftAxis.setTextColor(R.color.DarkRed);
         leftAxis.setDrawGridLines(false);
         leftAxis.setLabelCount(6, false);
         leftAxis.setSpaceTop(15f);
         leftAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
+        leftAxis.disableAxisLineDashedLine();
+        leftAxis.disableGridDashedLine();
+        leftAxis.setTextColor(this.chartInfoColour);
+        leftAxis.setAxisLineColor(this.chartInfoColour);
 
         Legend l = chart.getLegend();
         l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
@@ -127,6 +124,8 @@ public class Analytics extends Fragment {
         l.setXEntrySpace(4f);
         l.setForm(Legend.LegendForm.CIRCLE);
         l.setXOffset(-25f);
+        l.setTextColor(this.chartInfoColour);
+
         setData(db.getAmountSpentPerDay(true));
     }
 
@@ -158,8 +157,12 @@ public class Analytics extends Fragment {
             dataSet.setCubicIntensity(0.15f);
             dataSet.setDrawValues(false);
             dataSet.setDrawCircleHole(false);
-            dataSet.setColor(R.color.black);
-            dataSet.setCircleColor(R.color.black);
+            dataSet.setColor(this.chartColour);
+            dataSet.setCircleColor(this.chartColour);
+            dataSet.setFillColor(this.chartColour);
+            dataSet.setDrawHorizontalHighlightIndicator(false);
+            dataSet.setDrawVerticalHighlightIndicator(false);
+
             ArrayList<ILineDataSet> dataSets = new ArrayList<>();
             dataSets.add(dataSet);
 
