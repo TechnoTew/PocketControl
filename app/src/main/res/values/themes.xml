@@ -24,10 +24,7 @@
         <item name="android:solidColor">@color/GreenVariant1</item>
         <item name="android:textColorPrimary">@color/black</item>
         <item name="android:textColorSecondary">@color/DarkRed</item>
-        <!--Use this for colours in budgeting bars!-->
-        <item name="colorOnSurface">@color/Blue</item>
-        <item name="colorOnSurfaceVariant">@color/VeryDarkOrange</item>
-        <item name="colorOnSurfaceInverse">@color/DarkerRed</item>
+
     </style>
 
 </resources>
