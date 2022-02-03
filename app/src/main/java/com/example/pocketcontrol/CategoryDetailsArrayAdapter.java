@@ -1,6 +1,5 @@
 package com.example.pocketcontrol;
 
-import android.content.res.Configuration;
 import android.graphics.BlendMode;
 import android.graphics.BlendModeColorFilter;
 import android.graphics.drawable.Drawable;
@@ -40,24 +39,18 @@ public class CategoryDetailsArrayAdapter extends RecyclerView.Adapter<CategoryDe
         // Item Clicks
         myViewHolder.itemView.setOnClickListener(v -> categoryClickListener.onItemClicked(categoryArrayList.get(myViewHolder.getLayoutPosition())));
 
-        int nightModeFlags =
-                view.getContext().getResources().getConfiguration().uiMode &
-                        Configuration.UI_MODE_NIGHT_MASK;
-        switch (nightModeFlags) {
-            case Configuration.UI_MODE_NIGHT_YES:
-                // these colours are for dark theme
-                okayColour = ContextCompat.getColor(view.getContext(), R.color.IndianRed);
-                warningColour = ContextCompat.getColor(view.getContext(), R.color.Red);
-                dangerColour = ContextCompat.getColor(view.getContext(), R.color.Red);
-                break;
-
-            default: // can cover undefined type or light type
-                // default to light theme
-                okayColour = ContextCompat.getColor(view.getContext(), R.color.Blue);
-                warningColour = ContextCompat.getColor(view.getContext(), R.color.VeryDarkOrange);
-                dangerColour = ContextCompat.getColor(view.getContext(), R.color.DarkerRed);
-                break;
+        if (ThemeManager.isDarkTheme(view)) {
+            // is dark theme
+            okayColour = ContextCompat.getColor(view.getContext(), R.color.Red);
+            warningColour = ContextCompat.getColor(view.getContext(), R.color.Red);
+            dangerColour = ContextCompat.getColor(view.getContext(), R.color.Red);
+        } else {
+            // is light theme or default
+            okayColour = ContextCompat.getColor(view.getContext(), R.color.Blue);
+            warningColour = ContextCompat.getColor(view.getContext(), R.color.VeryDarkOrange);
+            dangerColour = ContextCompat.getColor(view.getContext(), R.color.DarkerRed);
         }
+
 
 
         return myViewHolder;
