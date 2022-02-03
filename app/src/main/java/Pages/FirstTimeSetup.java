@@ -51,6 +51,10 @@ public class FirstTimeSetup extends AppCompatActivity {
             db.addCategory(new Category("Essentials", 50));
             db.addCategory(new Category("Entertainment", 100.00));
             db.addCategory(new Category("Snacks", 50.00));
+            db.addCategory(new Category("Transportation", 90.00));
+            db.addCategory(new Category("Friends", 150.00));
+            db.addCategory(new Category("Miscellaneous", 60.00));
+            db.addCategory(new Category("Emergency", 100.00));
         }
 
         // uncomment should u need to replace all the items with default
@@ -65,12 +69,16 @@ public class FirstTimeSetup extends AppCompatActivity {
             db.addItem(new Item(1, "Chicken Rice", 3.50, Timestamp.valueOf("2021-11-05 14:06:48")));
             db.addItem(new Item(1, "Cheese Chicken Chop", 5.50, Timestamp.valueOf("2021-11-05 14:06:48")));
             db.addItem(new Item(4, "Chocolate Ice Cream", 1.50, Timestamp.valueOf("2021-11-05 14:36:48")));
-            db.addItem(new Item(2, "Ez-Link Card Topup", 20.00, Timestamp.valueOf("2021-12-08 12:37:51")));
+            db.addItem(new Item(5, "Ez-Link Card Topup", 20.00, Timestamp.valueOf("2021-12-08 12:37:51")));
             db.addItem(new Item(2, "Monthly Mobile Plan Subscription", 13.00, Timestamp.valueOf("2021-12-08 12:36:48")));
             db.addItem(new Item(2, "Kopitiam Card Topup", 20.00, Timestamp.valueOf("2021-01-15 12:37:51")));
             db.addItem(new Item(1, "Roasted Pork Rice", 13.00, Timestamp.valueOf("2021-01-17 15:53:48")));
             db.addItem(new Item(3, "Logitech G304 Mouse", 79.90, new Timestamp(System.currentTimeMillis())));
-            db.addItem(new Item(4, "Waffle", 1.00));
+            db.addItem(new Item(5, "Grab to School", 20.0, new Timestamp(System.currentTimeMillis())));
+            db.addItem(new Item(5, "Grab to School", 20.0,Timestamp.valueOf("2021-01-17 8:30:48")));
+            db.addItem(new Item(6, "Meal and Bowling with Brandon", 45.00, new Timestamp(System.currentTimeMillis())));
+            db.addItem(new Item(7, "Gift for Mom", 30.00, new Timestamp(System.currentTimeMillis())));
+            db.addItem(new Item(8, "Doctor Visit for Fever", 60.00, new Timestamp(System.currentTimeMillis())));
         }
 
         ArrayList<Category> categoriesWithItemTotals = db.getAllCategoriesWithItemTotals(false);
