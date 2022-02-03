@@ -18,7 +18,6 @@ import com.example.pocketcontrol.Item;
 import com.example.pocketcontrol.R;
 import com.example.pocketcontrol.SharedPreferenceHandler;
 
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
