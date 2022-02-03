@@ -63,6 +63,7 @@ public class Overview extends Fragment {
 
         // initialize pie chart
         chart = this.getView().findViewById(R.id.pieChart);
+
         this.renderPieChart(chart, db.getAllCategoriesWithItemTotals(true), 500);
 
         generateUIForRecycleView(this.getView(), db.getAllItems(true, true));
