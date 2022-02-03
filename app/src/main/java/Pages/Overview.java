@@ -24,6 +24,7 @@ import com.example.pocketcontrol.Item;
 import com.example.pocketcontrol.ItemArrayAdapter;
 import com.example.pocketcontrol.R;
 import com.example.pocketcontrol.SharedPreferenceHandler;
+import com.example.pocketcontrol.ThemeManager;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.PieData;
@@ -59,6 +60,7 @@ public class Overview extends Fragment {
 
         db = new DatabaseHandler(this.getContext());
 
+
         // initialize pie chart
         chart = this.getView().findViewById(R.id.pieChart);
         this.renderPieChart(chart, db.getAllCategoriesWithItemTotals(true), 500);
@@ -84,6 +86,9 @@ public class Overview extends Fragment {
     private void renderPieChart(PieChart pieChart, ArrayList<Category> categoriesWithItemTotals, int animationDurationMillis) {
         ArrayList<PieEntry> entries = new ArrayList<>();
 
+        // save the theme for reference
+        boolean isDarkThemeOn = ThemeManager.isDarkTheme(this.getView());
+
         // calculate the total amount spent
         double totalAmountSpent = categoriesWithItemTotals.stream().mapToDouble(category -> category.getTotalValueSpentInCategory()).sum();
 
@@ -101,11 +106,13 @@ public class Overview extends Fragment {
         pieChart.setExtraOffsets(10, 10, 10, 10);
         pieChart.getDescription().setEnabled(false);
         pieChart.setCenterText(String.format("Amount Spent:\n$%.2f", totalAmountSpent));
+        pieChart.setCenterTextColor(isDarkThemeOn ? Color.WHITE : Color.DKGRAY);
         pieChart.setHoleColor(Color.TRANSPARENT);
         pieChart.setCenterTextSize(14);
+
         pieChart.setCenterTextTypeface(Typeface.DEFAULT_BOLD);
         pieChart.setUsePercentValues(true);
-        pieChart.setEntryLabelColor(Color.DKGRAY);
+        pieChart.setEntryLabelColor(isDarkThemeOn ? Color.WHITE : Color.DKGRAY);
         pieChart.setEntryLabelTypeface(Typeface.DEFAULT_BOLD);
         pieChart.setEntryLabelTextSize(13);
         pieChart.setMinAngleForSlices(25);
