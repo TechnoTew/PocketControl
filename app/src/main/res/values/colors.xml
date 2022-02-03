@@ -156,4 +156,5 @@
     <color name="GreenRippleColour">#d9f2e4</color>
     <color name="VeryDarkOrange">#854900</color>
     <color name="DarkerGrey">#6E6E6E</color>
+    <color name="DarkerRed">#921C1C</color>
 </resources>
