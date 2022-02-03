@@ -144,7 +144,7 @@ public class Spendings extends Fragment {
 
                 // check that the item value cannot be below (minItemValue), or above (maxItemValue)
                 if (Double.compare(newItemValue, minItemValue) < 0 || Double.compare(newItemValue, maxItemValue) > 0) {
-                    itemValueErrorText.setText(Double.compare(newItemValue, minItemValue) < 0 ? String.format("Min Value for Category cannot be under $%.2f", minItemValue) : String.format("Max Value for Category cannot be above $%.2f", maxItemValue));
+                    itemValueErrorText.setText(Double.compare(newItemValue, minItemValue) < 0 ? String.format("Min Value for Item cannot be under $%.2f", minItemValue) : String.format("Max Value for Item cannot be above $%.2f", maxItemValue));
                     return;
                 }
 
@@ -247,8 +247,8 @@ public class Spendings extends Fragment {
                 }
 
                 // check that the item value cannot be below (minItemValue), or above (maxItemValue)
-                if (Double.compare(newItemValue, minItemValue) < 0 || Double.compare(newItemValue, maxItemValue) > 0) {
-                    itemValueErrorText.setText(Double.compare(newItemValue, minItemValue) < 0 ? String.format("Min Value for Category cannot be under $%.2f", minItemValue) : String.format("Max Value for Category cannot be above $%.2f", maxItemValue));
+                if (Double.compare(newItemValue, -1) != 0 && Double.compare(newItemValue, minItemValue) < 0 || Double.compare(newItemValue, maxItemValue) > 0) {
+                    itemValueErrorText.setText(Double.compare(newItemValue, minItemValue) < 0 ? String.format("Min Value for Item cannot be under $%.2f", minItemValue) : String.format("Max Value for Item cannot be above $%.2f", maxItemValue));
                     return;
                 }
 

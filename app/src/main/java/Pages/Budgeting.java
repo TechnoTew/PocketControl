@@ -224,7 +224,7 @@ public class Budgeting extends Fragment {
                 }
 
                 // check that the category max value cannot be below (minCategoryMaxValue), or be above (maxCategoryMaxValue)
-                if (Double.compare(newCategoryMaxBudgetValue, minCategoryMaxValue) < 0 || Double.compare(newCategoryMaxBudgetValue, maxCategoryMaxValue) > 0) {
+                if (Double.compare(newCategoryMaxBudgetValue, -1) != 0 && Double.compare(newCategoryMaxBudgetValue, minCategoryMaxValue) < 0 || Double.compare(newCategoryMaxBudgetValue, maxCategoryMaxValue) > 0) {
                     categoryValueErrorText.setText(Double.compare(newCategoryMaxBudgetValue, minCategoryMaxValue) < 0 ? String.format("Min Value for Category cannot be under $%.2f", minCategoryMaxValue) : String.format("Max Value for Category cannot be above $%.2f", maxCategoryMaxValue));
                     return;
                 }
