@@ -114,17 +114,15 @@ public class Analytics extends Fragment {
         leftAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
 
         Legend l = chart.getLegend();
-        l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
-        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
+        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
         l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
         l.setDrawInside(false);
         l.setFormSize(9f);
         l.setTextSize(11f);
         l.setXEntrySpace(4f);
         l.setForm(Legend.LegendForm.CIRCLE);
-        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
         l.setXOffset(-25f);
-
         setData(db.getAmountSpentPerDay(true));
     }
 
