@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.example.pocketcontrol.AdHandler;
 
+import com.example.pocketcontrol.BudgetDayRecord;
 import com.example.pocketcontrol.BudgetMonthRecord;
 import com.example.pocketcontrol.DatabaseHandler;
 import com.example.pocketcontrol.Item;
@@ -35,11 +36,12 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class Analytics extends Fragment {
 
     private DatabaseHandler db;
-    private BarChart chart;
+    private LineChart chart;
 
 
     public Analytics() {
@@ -57,10 +59,13 @@ public class Analytics extends Fragment {
         // activate db
         db = new DatabaseHandler(this.getContext());
 
-        chart = this.getView().findViewById(R.id.chart1);
 
-        chart.setDrawBarShadow(false);
-        chart.setDrawValueAboveBar(true);
+        for (BudgetDayRecord budgetDayRecord : db.getAmountSpentPerDay(true)) {
+            System.out.println(budgetDayRecord);
+        }
+
+        chart = this.getView().findViewById(R.id.lineChart);
+
 
         chart.getDescription().setEnabled(false);
 
@@ -75,23 +80,38 @@ public class Analytics extends Fragment {
         chart.setDrawGridBackground(false);
         // chart.setDrawYLabels(false);
 
+        chart.setTouchEnabled(true);
+        chart.setPinchZoom(true);
+        chart.setMinimumHeight(600);
+        chart.animateXY(0, 1000);
+        chart.setExtraTopOffset(10f);
+        chart.setNoDataText("No Data Available");
+
         XAxis xAxis = chart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
-        xAxis.setGranularity(1f); // only intervals of 1 day
-        xAxis.setLabelCount(7);
-
-        YAxis leftAxis = chart.getAxisLeft();
-        leftAxis.setLabelCount(8, false);
-
-        leftAxis.setSpaceTop(15f);
-        leftAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setTextSize(10f);
+        xAxis.setGranularityEnabled(true);
+        xAxis.setTextColor(R.color.black);
+        xAxis.setAxisLineColor(R.color.black);
 
         YAxis rightAxis = chart.getAxisRight();
-        rightAxis.setDrawGridLines(false);
+        rightAxis.setDrawLabels(false);
+        rightAxis.setDrawAxisLine(false);
+        rightAxis.enableGridDashedLine(10f, 10f, 10f);
         rightAxis.setLabelCount(8, false);
+
         rightAxis.setSpaceTop(15f);
         rightAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
+
+        YAxis leftAxis = chart.getAxisLeft();
+        leftAxis.setDrawAxisLine(false);
+        leftAxis.enableGridDashedLine(10f, 10f, 10f);
+        leftAxis.setTextColor(R.color.DarkRed);
+        leftAxis.setDrawGridLines(false);
+        leftAxis.setLabelCount(6, false);
+        leftAxis.setSpaceTop(15f);
+        leftAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
 
         Legend l = chart.getLegend();
         l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
@@ -101,37 +121,48 @@ public class Analytics extends Fragment {
         l.setFormSize(9f);
         l.setTextSize(11f);
         l.setXEntrySpace(4f);
+        l.setForm(Legend.LegendForm.CIRCLE);
+        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+        l.setXOffset(-25f);
 
-        setData(db.getAmountSpentPerMonth());
+        setData(db.getAmountSpentPerDay(true));
     }
 
-    private void setData(ArrayList<BudgetMonthRecord> budgetMonthRecords) {
+    private void setData(ArrayList<BudgetDayRecord> budgetDayRecords) {
 
-        ArrayList<BarEntry> values = new ArrayList<>();
+        ArrayList<Entry> values = new ArrayList<>();
 
-        for (BudgetMonthRecord budgetMonthRecord : budgetMonthRecords) {
-            values.add(new BarEntry(budgetMonthRecord.getMonthNumber(), (float) budgetMonthRecord.getAmountSpentInMonth()));
+        for (BudgetDayRecord budgetDayRecord : budgetDayRecords) {
+
+            values.add(new Entry((float) budgetDayRecord.getDayNumber(), (float) budgetDayRecord.getAmountSpentInDay()));
         }
 
-        BarDataSet set1;
+        LineDataSet dataSet;
 
         if (chart.getData() != null &&
                 chart.getData().getDataSetCount() > 0) {
-            set1 = (BarDataSet) chart.getData().getDataSetByIndex(0);
-            set1.setValues(values);
+            dataSet = (LineDataSet) chart.getData().getDataSetByIndex(0);
+            dataSet.setValues(values);
             chart.getData().notifyDataChanged();
             chart.notifyDataSetChanged();
 
         } else {
-            set1 = new BarDataSet(values, "Expenditures for past months");
+            dataSet = new LineDataSet(values, "Expenditures for this month");
 
-            set1.setDrawIcons(false);
-            ArrayList<IBarDataSet> dataSets = new ArrayList<>();
-            dataSets.add(set1);
+            dataSet.setDrawFilled(true);
+            dataSet.setFillAlpha(45);
+            dataSet.setDrawIcons(false);
+            dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+            dataSet.setCubicIntensity(0.15f);
+            dataSet.setDrawValues(false);
+            dataSet.setDrawCircleHole(false);
+            dataSet.setColor(R.color.black);
+            dataSet.setCircleColor(R.color.black);
+            ArrayList<ILineDataSet> dataSets = new ArrayList<>();
+            dataSets.add(dataSet);
 
-            BarData data = new BarData(dataSets);
+            LineData data = new LineData(dataSets);
             data.setValueTextSize(10f);
-            data.setBarWidth(0.9f);
 
             chart.setData(data);
         }
