@@ -24,7 +24,7 @@
         <item name="android:solidColor">@color/GreenVariant1</item>
         <item name="android:textColorPrimary">@color/black</item>
         <item name="android:textColorSecondary">@color/DarkRed</item>
-
+        <item name="colorOnBackground">@color/White</item>
     </style>
 
 </resources>

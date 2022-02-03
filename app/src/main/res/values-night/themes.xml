@@ -23,6 +23,7 @@
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:textColorSecondary">@color/white</item>
         <item name="hintTextColor">@color/white</item>
+        <item name="colorOnBackground">@color/DimGray</item>
 
     </style>
 </resources>
