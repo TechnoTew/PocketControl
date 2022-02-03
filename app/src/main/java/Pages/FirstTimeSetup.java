@@ -54,15 +54,21 @@ public class FirstTimeSetup extends AppCompatActivity {
         }
 
         // uncomment should u need to replace all the items with default
-        // db.wipeAllItems();
+        db.wipeAllItems();
 
         // new Timestamp(System.currentTimeMillis())
         if (db.getAllItems(false, false).size() == 0) {
+            db.addItem(new Item(1, "Roasted Pork & Char Siew Rice", 6.50, Timestamp.valueOf("2021-09-01 08:06:48")));
+            db.addItem(new Item(4, "Blueberry Cupcake", 2.50, Timestamp.valueOf("2021-09-05 14:06:48")));
+            db.addItem(new Item(3, "Mouse Mat", 10.50, Timestamp.valueOf("2021-10-05 12:06:48")));
+            db.addItem(new Item(4, "Strawberry Cupcake", 2.50, Timestamp.valueOf("2021-10-05 16:16:48")));
             db.addItem(new Item(1, "Chicken Rice", 3.50, Timestamp.valueOf("2021-11-05 14:06:48")));
-            db.addItem(new Item(1, "Cheese Chicken Chop", 3.50, Timestamp.valueOf("2021-11-05 14:06:48")));
-            db.addItem(new Item(4, "Chocolate Ice Cream", 3.50, Timestamp.valueOf("2021-11-05 14:36:48")));
+            db.addItem(new Item(1, "Cheese Chicken Chop", 5.50, Timestamp.valueOf("2021-11-05 14:06:48")));
+            db.addItem(new Item(4, "Chocolate Ice Cream", 1.50, Timestamp.valueOf("2021-11-05 14:36:48")));
             db.addItem(new Item(2, "Ez-Link Card Topup", 20.00, Timestamp.valueOf("2021-12-08 12:37:51")));
             db.addItem(new Item(2, "Monthly Mobile Plan Subscription", 13.00, Timestamp.valueOf("2021-12-08 12:36:48")));
+            db.addItem(new Item(2, "Kopitiam Card Topup", 20.00, Timestamp.valueOf("2021-01-15 12:37:51")));
+            db.addItem(new Item(1, "Roasted Pork Rice", 13.00, Timestamp.valueOf("2021-01-17 15:53:48")));
             db.addItem(new Item(3, "Logitech G304 Mouse", 79.90, new Timestamp(System.currentTimeMillis())));
             db.addItem(new Item(4, "Waffle", 1.00));
         }
