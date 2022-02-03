@@ -93,7 +93,7 @@ public class FirstTimeSetup extends AppCompatActivity {
                     , item.getItemValue()));
         }
 
-        ArrayList<BudgetMonthRecord> budgetMonthRecords = db.getAmountSpentPerMonth();
+        ArrayList<BudgetMonthRecord> budgetMonthRecords = db.getAmountSpentPerMonth(false);
         for (BudgetMonthRecord budgetMonthRecord : budgetMonthRecords) {
             Log.d("", budgetMonthRecord.debugInfo());
         }

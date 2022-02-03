@@ -7,6 +7,8 @@ import android.os.Bundle;
 
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 
 import android.view.LayoutInflater;
@@ -20,6 +22,7 @@ import com.example.pocketcontrol.AdHandler;
 
 import com.example.pocketcontrol.BudgetDayRecord;
 import com.example.pocketcontrol.BudgetMonthRecord;
+import com.example.pocketcontrol.BudgetMonthRecordArrayAdapter;
 import com.example.pocketcontrol.DatabaseHandler;
 import com.example.pocketcontrol.Item;
 import com.example.pocketcontrol.R;
@@ -42,6 +45,7 @@ public class Analytics extends Fragment {
 
     private DatabaseHandler db;
     private LineChart chart;
+    private RecyclerView expenditureHistoryData;
 
 
     public Analytics() {
@@ -59,13 +63,13 @@ public class Analytics extends Fragment {
         // activate db
         db = new DatabaseHandler(this.getContext());
 
-
+        generateUIForRecycleView(this.getView(), db.getAmountSpentPerMonth(true));
+        
         for (BudgetDayRecord budgetDayRecord : db.getAmountSpentPerDay(true)) {
             System.out.println(budgetDayRecord);
         }
 
         chart = this.getView().findViewById(R.id.lineChart);
-
 
         chart.getDescription().setEnabled(false);
 
@@ -92,7 +96,7 @@ public class Analytics extends Fragment {
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setTextSize(10f);
         xAxis.setGranularityEnabled(true);
-        xAxis.setTextColor(R.color.black);
+        xAxis.setTextColor(R.color.white);
         xAxis.setAxisLineColor(R.color.black);
 
         YAxis rightAxis = chart.getAxisRight();
@@ -166,4 +170,21 @@ public class Analytics extends Fragment {
         }
     }
 
+    private void generateUIForRecycleView(View view, ArrayList<BudgetMonthRecord> budgetMonthRecordArrayList) {
+        // reference of recyclerView
+        expenditureHistoryData = view.findViewById(R.id.budgetMonthRecycleView);
+
+        // Linear Layout Manager
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(view.getContext(), RecyclerView.VERTICAL, false);
+
+        // Set Layout Manager to RecyclerView
+        expenditureHistoryData.setLayoutManager(linearLayoutManager);
+
+        BudgetMonthRecordArrayAdapter budgetMonthRecordArrayAdapter = new BudgetMonthRecordArrayAdapter(budgetMonthRecordArrayList, budgetItem -> {
+
+        });
+
+        // set the adapter
+        expenditureHistoryData.setAdapter(budgetMonthRecordArrayAdapter);
+    }
 }

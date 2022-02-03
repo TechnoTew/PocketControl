@@ -163,7 +163,7 @@ public class Spendings extends Fragment {
 
     }
 
-    public void generateUIForRecycleView(View view, ArrayList<Item> itemArrayList) {
+    private void generateUIForRecycleView(View view, ArrayList<Item> itemArrayList) {
         // Reference of recyclerView
         itemRecyclerView = view.findViewById(R.id.spendingsRecyclerView);
 

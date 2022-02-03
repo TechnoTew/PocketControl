@@ -9,6 +9,7 @@ import android.icu.util.Calendar;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
@@ -166,7 +167,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return categoryList;
     }
 
-    public ArrayList<BudgetMonthRecord> getAmountSpentPerMonth() {
+    public ArrayList<BudgetMonthRecord> getAmountSpentPerMonth(boolean reverseSort) {
         ArrayList<BudgetMonthRecord> budgetMonthRecords = new ArrayList<>();
 
         String selectQuery = String.format("SELECT SUM(%s), CAST(strftime('%%m', %s) AS INTEGER) AS monthNumber, CAST(strftime('%%Y', %s) AS INTEGER) AS yearNumber FROM %s i GROUP BY yearNumber, monthNumber;", KEY_ITEM_VALUE, KEY_ITEM_TIMESTAMP, KEY_ITEM_TIMESTAMP, TABLE_ITEMS);
@@ -181,6 +182,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
                 budgetMonthRecords.add(budgetMonthRecord);
             } while (cursor.moveToNext());
+        }
+
+        // remove the latest month from the arraylist (as the month hasn't completed yet)
+        budgetMonthRecords.remove(budgetMonthRecords.size() - 1);
+
+        if (reverseSort) {
+            Collections.reverse(budgetMonthRecords);
         }
 
         return budgetMonthRecords;
