@@ -58,7 +58,7 @@ public class FirstTimeSetup extends AppCompatActivity {
         }
 
         // uncomment should u need to replace all the items with default
-        db.wipeAllItems();
+        // db.wipeAllItems();
 
         // new Timestamp(System.currentTimeMillis())
         if (db.getAllItems(false, false).size() == 0) {
@@ -75,7 +75,7 @@ public class FirstTimeSetup extends AppCompatActivity {
             db.addItem(new Item(1, "Roasted Pork Rice", 13.00, Timestamp.valueOf("2021-01-17 15:53:48")));
             db.addItem(new Item(3, "Logitech G304 Mouse", 79.90, new Timestamp(System.currentTimeMillis())));
             db.addItem(new Item(5, "Grab to School", 20.0, new Timestamp(System.currentTimeMillis())));
-            db.addItem(new Item(5, "Grab to School", 20.0,Timestamp.valueOf("2021-01-17 8:30:48")));
+            db.addItem(new Item(5, "Grab to School", 20.0, Timestamp.valueOf("2021-01-17 8:30:48")));
             db.addItem(new Item(6, "Meal and Bowling with Brandon", 45.00, new Timestamp(System.currentTimeMillis())));
             db.addItem(new Item(7, "Gift for Mom", 30.00, new Timestamp(System.currentTimeMillis())));
             db.addItem(new Item(8, "Doctor Visit for Fever", 60.00, new Timestamp(System.currentTimeMillis())));
