@@ -1,8 +1,10 @@
 package Pages;
 
-import android.app.AlertDialog;
+import android.content.res.Resources;
 import android.os.Bundle;
 
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,6 +24,7 @@ import com.example.pocketcontrol.DatabaseHandler;
 import com.example.pocketcontrol.Item;
 import com.example.pocketcontrol.ItemArrayAdapter;
 import com.example.pocketcontrol.R;
+import com.example.pocketcontrol.ThemeManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -40,6 +43,8 @@ public class Spendings extends Fragment {
     private int maxNoOfCharForItemName = 50;
     private double minItemValue = 1;
     private double maxItemValue = 100000;
+
+    private View rootView;
 
     public Spendings() {
         super(R.layout.fragment_spendings);
@@ -61,6 +66,8 @@ public class Spendings extends Fragment {
 
         // Initialize database handler
         db = new DatabaseHandler(this.getContext());
+
+        rootView = this.getView();
 
         // generate the recycler view for android
         generateUIForRecycleView(this.getView(), db.getAllItems(false, false));
@@ -101,6 +108,13 @@ public class Spendings extends Fragment {
             addItemDialog.setView(alertView);
 
             addItemDialog.show();
+
+            // if dark theme, set the text of the buttons to white
+            if (ThemeManager.isDarkTheme(rootView)) {
+                addItemDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.white, rootView.getContext().getTheme()));
+                addItemDialog.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(getResources().getColor(R.color.white, rootView.getContext().getTheme()));
+                addItemDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.white, rootView.getContext().getTheme()));
+            }
 
             addItemDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(addItemDialogView -> {
                 // override the modal from closing
@@ -210,6 +224,13 @@ public class Spendings extends Fragment {
             editItemDialog.setView(alertView);
 
             editItemDialog.show();
+
+            // if dark theme, set the text of the buttons to white
+            if (ThemeManager.isDarkTheme(rootView)) {
+                editItemDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.white, rootView.getContext().getTheme()));
+                editItemDialog.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(getResources().getColor(R.color.white, rootView.getContext().getTheme()));
+                editItemDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.white, rootView.getContext().getTheme()));
+            }
 
             editItemDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(editDialogView -> {
                 // override the modal from closing
