@@ -42,7 +42,7 @@ public class Spendings extends Fragment {
     private double maxItemValue = 100000;
 
     public Spendings() {
-        // Required empty public constructor
+        super(R.layout.fragment_spendings);
     }
 
     private void reloadPage() {
@@ -53,12 +53,8 @@ public class Spendings extends Fragment {
                 .commit();
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View returnView = inflater.inflate(R.layout.fragment_spendings, container, false);
-
+    public void onStart() {
+        super.onStart();
         // roll a chance from 1 to 10 to show an ad
         AdHandler adHandler = new AdHandler(this.getActivity());
         adHandler.showAdAtRandom(10);
@@ -67,12 +63,12 @@ public class Spendings extends Fragment {
         db = new DatabaseHandler(this.getContext());
 
         // generate the recycler view for android
-        generateUIForRecycleView(returnView, db.getAllItems(false, false));
+        generateUIForRecycleView(this.getView(), db.getAllItems(false, false));
 
-        FloatingActionButton addItemButton = returnView.findViewById(R.id.addItemFloatingButton);
+        FloatingActionButton addItemButton = this.getView().findViewById(R.id.addItemFloatingButton);
 
         addItemButton.setOnClickListener(v -> {
-            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(returnView.getContext());
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this.getView().getContext());
 
             dialogBuilder.setNegativeButton("Cancel", (dialog, id) -> {
                 // User clicked Cancel button
@@ -97,7 +93,7 @@ public class Spendings extends Fragment {
             itemValueErrorText = alertView.findViewById(R.id.itemValueError);
 
             // initialize the spinner with the categories
-            ArrayAdapter<Category> categoryArrayAdapter = new ArrayAdapter<Category>(returnView.getContext(), R.layout.simple_spinner_item, db.getAllCategoriesWithItemTotals(false));
+            ArrayAdapter<Category> categoryArrayAdapter = new ArrayAdapter<Category>(this.getView().getContext(), R.layout.simple_spinner_item, db.getAllCategoriesWithItemTotals(false));
             categoryArrayAdapter.setDropDownViewResource(R.layout.simple_spinner_item);
             categorySpinner.setAdapter(categoryArrayAdapter);
 
@@ -151,7 +147,6 @@ public class Spendings extends Fragment {
             });
         });
 
-        return returnView;
     }
 
     public void generateUIForRecycleView(View view, ArrayList<Item> itemArrayList) {
