@@ -1,18 +1,9 @@
 package Pages;
 
-import static android.content.Context.INPUT_METHOD_SERVICE;
-
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -32,7 +23,7 @@ public class Settings extends Fragment {
     private Button saveSettingButton;
 
     public Settings() {
-
+        super(R.layout.fragment_settings);
     }
 
     private AlertDialog alertDialog() {
@@ -64,16 +55,8 @@ public class Settings extends Fragment {
         return dialog;
     }
 
-    private void hideKeyboard(View v) {
-        InputMethodManager inputMethodManager = (InputMethodManager)v.getContext().getSystemService(INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(v.getApplicationWindowToken(),0);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View returnView = inflater.inflate(R.layout.fragment_settings, container, false);
+    public void onStart() {
+        super.onStart();
 
         // roll a chance from 1 to 10 to show an ad
         AdHandler adHandler = new AdHandler(this.getActivity());
@@ -85,10 +68,10 @@ public class Settings extends Fragment {
         AlertDialog alertDialog = alertDialog();
         AlertDialog successDialog = successDialog();
 
-        resetAllButton = (Button) returnView.findViewById(R.id.fullResetbutton);
-        resetAllItemsButton = (Button) returnView.findViewById(R.id.clearAllItemsButton);
-        editNameTextBox = (EditText) returnView.findViewById(R.id.changeNameEditText);
-        saveSettingButton = (Button) returnView.findViewById(R.id.saveSettingsButton);
+        resetAllButton = (Button) this.getView().findViewById(R.id.fullResetbutton);
+        resetAllItemsButton = (Button) this.getView().findViewById(R.id.clearAllItemsButton);
+        editNameTextBox = (EditText) this.getView().findViewById(R.id.changeNameEditText);
+        saveSettingButton = (Button) this.getView().findViewById(R.id.saveSettingsButton);
 
         // set the hint of the old text box to the old username
         editNameTextBox.setHint(sph.getUserName());
@@ -128,7 +111,7 @@ public class Settings extends Fragment {
                 sph.setUserName(editNameTextBox.getText().toString());
 
                 //hideKeyboard(returnView);
-                KeyboardManager.hideKeyboard(returnView);
+                KeyboardManager.hideKeyboard(this.getView());
                 successDialog.show();
 
                 getParentFragmentManager()
@@ -139,10 +122,7 @@ public class Settings extends Fragment {
             }
         });
 
-
-        return returnView;
     }
-
 
 
 
