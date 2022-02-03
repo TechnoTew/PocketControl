@@ -93,7 +93,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         ArrayList<Item> itemList = new ArrayList<>();
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(String.format("SElECT %s, %s, c.%s, %s, %s, %s, CAST(strftime('%%m', %s) AS INTEGER) AS monthNumber FROM %s i INNER JOIN %s c ON c.%s = i.%s %s %s", KEY_ITEM_ID, KEY_ITEM_NAME, KEY_CATEGORY_NAME, KEY_ITEM_VALUE, KEY_FK_CATEGORY_ID, KEY_ITEM_TIMESTAMP, KEY_ITEM_TIMESTAMP, TABLE_ITEMS, TABLE_CATEGORIES, KEY_CATEGORY_ID, KEY_FK_CATEGORY_ID, getThisMonthOnly ? String.format(" WHERE monthNumber = %d ", Calendar.MONTH) : "", reverseSort ? " ORDER BY item_id DESC" : ""), null);
+        Cursor cursor = db.rawQuery(String.format("SELECT %s, %s, c.%s, %s, %s, %s, CAST(strftime('%%m', %s) AS INTEGER) AS monthNumber FROM %s i INNER JOIN %s c ON c.%s = i.%s %s %s", KEY_ITEM_ID, KEY_ITEM_NAME, KEY_CATEGORY_NAME, KEY_ITEM_VALUE, KEY_FK_CATEGORY_ID, KEY_ITEM_TIMESTAMP, KEY_ITEM_TIMESTAMP, TABLE_ITEMS, TABLE_CATEGORIES, KEY_CATEGORY_ID, KEY_FK_CATEGORY_ID, getThisMonthOnly ? String.format(" WHERE monthNumber = %d ", Calendar.MONTH) : "", reverseSort ? " ORDER BY item_id DESC" : ""), null);
 
         // loop through all the rows and add to the array list
         if (cursor.moveToFirst()) {
@@ -184,6 +184,25 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
 
         return budgetMonthRecords;
+    }
+
+    public ArrayList<BudgetDayRecord> getAmountSpentPerDay() {
+        ArrayList<BudgetDayRecord> budgetDayRecords = new ArrayList<>();
+
+        String selectQuery = String.format("SELECT SUM(%s), CAST(strftime('%%d', %s) AS INTEGER) AS dayNumber, CAST(strftime('%%m', item_created_at) AS %s) AS monthNumber, CAST(strftime('%%Y', item_created_at) AS %s) AS yearNumber FROM %s i GROUP BY yearNumber, monthNumber, dayNumber", KEY_ITEM_VALUE, KEY_ITEM_TIMESTAMP, KEY_ITEM_TIMESTAMP, KEY_ITEM_TIMESTAMP, TABLE_ITEMS);
+
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // loop through al the rows and add to the list
+        if (cursor.moveToFirst()) {
+            do {
+                BudgetDayRecord budgetDayRecord = new BudgetDayRecord(Double.parseDouble(cursor.getString(0)), Integer.parseInt(cursor.getString(1)), Integer.parseInt(cursor.getString(2)), Integer.parseInt(cursor.getString(3)));
+            } while (cursor.moveToNext());
+        }
+
+        return budgetDayRecords;
     }
 
     public void wipeAllCategories() {
