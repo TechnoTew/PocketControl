@@ -41,9 +41,9 @@ public class CategoryDetailsArrayAdapter extends RecyclerView.Adapter<CategoryDe
 
         if (ThemeManager.isDarkTheme(view)) {
             // is dark theme
-            okayColour = ContextCompat.getColor(view.getContext(), R.color.Red);
-            warningColour = ContextCompat.getColor(view.getContext(), R.color.Red);
-            dangerColour = ContextCompat.getColor(view.getContext(), R.color.Red);
+            okayColour = ContextCompat.getColor(view.getContext(), R.color.VeryLightGreen);
+            warningColour = ContextCompat.getColor(view.getContext(), R.color.Yellow);
+            dangerColour = ContextCompat.getColor(view.getContext(), R.color.PalePink);
         } else {
             // is light theme or default
             okayColour = ContextCompat.getColor(view.getContext(), R.color.Blue);

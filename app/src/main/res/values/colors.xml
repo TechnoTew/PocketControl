@@ -157,4 +157,7 @@
     <color name="VeryDarkOrange">#854900</color>
     <color name="DarkerGrey">#6E6E6E</color>
     <color name="DarkerRed">#921C1C</color>
+    <color name="VeryLightGreen">#D6FFD6</color>
+    <color name="PalePink">#FFEBEF</color>
+    <color name="SnowBlue">#D8F1F3</color>
 </resources>

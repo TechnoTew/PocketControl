@@ -12,7 +12,7 @@
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <!-- This changes the colour of radio buttons when highlighted!!!! -->
-        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondary">@color/SnowBlue</item>
         <item name="colorSecondaryVariant">@color/teal_200</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
@@ -23,9 +23,6 @@
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:textColorSecondary">@color/white</item>
         <item name="hintTextColor">@color/white</item>
-        <!--Use this for colours in budgeting bars!-->
-        <item name="colorOnSurface">@color/Blue</item>
-        <item name="colorOnSurfaceVariant">@color/VeryDarkOrange</item>
-        <item name="colorOnSurfaceInverse">@color/FireBrick</item>
+
     </style>
 </resources>
