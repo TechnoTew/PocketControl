@@ -1,7 +1,6 @@
 package Pages;
 
 import android.app.AlertDialog;
-import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -9,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -18,6 +17,7 @@ import com.example.pocketcontrol.Category;
 import com.example.pocketcontrol.CategoryDetailsArrayAdapter;
 import com.example.pocketcontrol.DatabaseHandler;
 import com.example.pocketcontrol.R;
+import com.example.pocketcontrol.ThemeManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -36,6 +36,8 @@ public class Budgeting extends Fragment {
     private double minCategoryMaxValue = 1;
     private double maxCategoryMaxValue = 100000;
 
+    private View rootView;
+
     public Budgeting() {
         super(R.layout.fragment_budgeting);
     }
@@ -50,6 +52,8 @@ public class Budgeting extends Fragment {
 
     public void onStart() {
         super.onStart();
+
+        rootView = this.getView();
 
         // roll a chance from 1 to 10 to show an ad
         AdHandler adHandler = new AdHandler(this.getActivity());
@@ -91,6 +95,13 @@ public class Budgeting extends Fragment {
             addCategoryDialog.setView(alertView);
 
             addCategoryDialog.show();
+
+            // if dark theme, set the text of the buttons to white
+            if (ThemeManager.isDarkTheme(rootView)) {
+                addCategoryDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.white, rootView.getContext().getTheme()));
+                addCategoryDialog.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(getResources().getColor(R.color.white, rootView.getContext().getTheme()));
+                addCategoryDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.white, rootView.getContext().getTheme()));
+            }
 
             addCategoryDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(alertDialogView -> {
                 // override the modal from closing
@@ -187,6 +198,14 @@ public class Budgeting extends Fragment {
             editCategoryDialog.setView(alertView);
 
             editCategoryDialog.show();
+
+            // if dark theme, set the text of the buttons to white
+            if (ThemeManager.isDarkTheme(rootView)) {
+                editCategoryDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.white, rootView.getContext().getTheme()));
+                editCategoryDialog.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(getResources().getColor(R.color.white, rootView.getContext().getTheme()));
+                editCategoryDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.white, rootView.getContext().getTheme()));
+            }
+
 
             editCategoryDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(alertDialogView -> {
                 // override the modal from closing
