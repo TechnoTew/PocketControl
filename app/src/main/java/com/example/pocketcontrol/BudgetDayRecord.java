@@ -34,7 +34,7 @@ public class BudgetDayRecord {
 
     @Override
     public String toString() {
-        return String.format("Amount Spent: $%.2f\nDay: %s\nMonth: %s\nYear: %s");
+        return String.format("Amount Spent: $%.2f\nDay: %s\nMonth: %s\nYear: %s", amountSpentInDay, dayNumber, monthNumber, yearNumber);
     }
 
 }

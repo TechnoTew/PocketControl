@@ -189,8 +189,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public ArrayList<BudgetDayRecord> getAmountSpentPerDay() {
         ArrayList<BudgetDayRecord> budgetDayRecords = new ArrayList<>();
 
-        String selectQuery = String.format("SELECT SUM(%s), CAST(strftime('%%d', %s) AS INTEGER) AS dayNumber, CAST(strftime('%%m', item_created_at) AS %s) AS monthNumber, CAST(strftime('%%Y', item_created_at) AS %s) AS yearNumber FROM %s i GROUP BY yearNumber, monthNumber, dayNumber", KEY_ITEM_VALUE, KEY_ITEM_TIMESTAMP, KEY_ITEM_TIMESTAMP, KEY_ITEM_TIMESTAMP, TABLE_ITEMS);
-
+        String selectQuery = String.format("SELECT SUM(%s), CAST(strftime('%%d', %s) AS INTEGER) AS dayNumber, CAST(strftime('%%m', %s) AS INTEGER) AS monthNumber, CAST(strftime('%%Y', %s) AS INTEGER) AS yearNumber FROM %s i GROUP BY yearNumber, monthNumber, dayNumber", KEY_ITEM_VALUE, KEY_ITEM_TIMESTAMP, KEY_ITEM_TIMESTAMP, KEY_ITEM_TIMESTAMP, TABLE_ITEMS);
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -199,6 +198,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 BudgetDayRecord budgetDayRecord = new BudgetDayRecord(Double.parseDouble(cursor.getString(0)), Integer.parseInt(cursor.getString(1)), Integer.parseInt(cursor.getString(2)), Integer.parseInt(cursor.getString(3)));
+
+                budgetDayRecords.add(budgetDayRecord);
             } while (cursor.moveToNext());
         }
 
