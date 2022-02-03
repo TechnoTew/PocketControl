@@ -37,7 +37,7 @@ public class Budgeting extends Fragment {
     private double maxCategoryMaxValue = 100000;
 
     public Budgeting() {
-        // Required empty public constructor
+        super(R.layout.fragment_budgeting);
     }
 
     private void reloadPage() {
@@ -48,11 +48,8 @@ public class Budgeting extends Fragment {
                 .commit();
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View returnView = inflater.inflate(R.layout.fragment_budgeting, container, false);
+    public void onStart() {
+        super.onStart();
 
         // roll a chance from 1 to 10 to show an ad
         AdHandler adHandler = new AdHandler(this.getActivity());
@@ -62,12 +59,12 @@ public class Budgeting extends Fragment {
 
         ArrayList<Category> categories = db.getAllCategoriesWithItemTotals(false);
 
-        generateUIForRecycleView(returnView, categories);
+        generateUIForRecycleView(this.getView(), categories);
 
-        FloatingActionButton addCategoryButton = returnView.findViewById(R.id.addBudgetFloatingButton);
+        FloatingActionButton addCategoryButton = this.getView().findViewById(R.id.addBudgetFloatingButton);
 
         addCategoryButton.setOnClickListener(addBudgetButtonView -> {
-            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(returnView.getContext());
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this.getView().getContext());
 
             LayoutInflater layoutInflater = getLayoutInflater();
 
@@ -138,8 +135,6 @@ public class Budgeting extends Fragment {
                 reloadPage();
             });
         });
-
-        return returnView;
     }
 
     public void generateUIForRecycleView(View view, ArrayList<Category> categoryArrayList) {
