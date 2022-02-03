@@ -148,7 +148,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public ArrayList<Category> getAllCategoriesWithItemTotals(Boolean getThisMonthOnly) {
         ArrayList<Category> categoryList = new ArrayList<>();
 
-        String selectQuery = String.format("SELECT %s, %s, %s, IFNULL(SUM(%s), 0) as total, CAST(strftime('%%m', i.%s) AS INTEGER) AS monthNumber FROM %s c LEFT JOIN %s i ON i.%s = c.%s %s GROUP BY c.%s;", KEY_CATEGORY_ID, KEY_CATEGORY_NAME, KEY_MAX_AMOUNT_TO_SPEND_IN_CATEGORY, KEY_ITEM_VALUE, KEY_ITEM_TIMESTAMP, TABLE_CATEGORIES, TABLE_ITEMS, KEY_FK_CATEGORY_ID, KEY_CATEGORY_ID, getThisMonthOnly ? String.format(" WHERE monthNumber = %d ", Calendar.MONTH) : "", KEY_CATEGORY_ID);
+        String selectQuery = String.format("SELECT %s, %s, %s, IFNULL(SUM(%s), 0) as total, CAST(strftime('%%m', i.%s) AS INTEGER) AS monthNumber FROM %s c LEFT JOIN %s i ON i.%s = c.%s %s GROUP BY c.%s;", KEY_CATEGORY_ID, KEY_CATEGORY_NAME, KEY_MAX_AMOUNT_TO_SPEND_IN_CATEGORY, KEY_ITEM_VALUE, KEY_ITEM_TIMESTAMP, TABLE_CATEGORIES, TABLE_ITEMS, KEY_FK_CATEGORY_ID, KEY_CATEGORY_ID, getThisMonthOnly ? String.format(" WHERE monthNumber = %d ", Calendar.getInstance().get(Calendar.MONTH)) : "", KEY_CATEGORY_ID);
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -186,10 +186,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return budgetMonthRecords;
     }
 
-    public ArrayList<BudgetDayRecord> getAmountSpentPerDay() {
+    public ArrayList<BudgetDayRecord> getAmountSpentPerDay(boolean getThisMonthAndYearOnly) {
         ArrayList<BudgetDayRecord> budgetDayRecords = new ArrayList<>();
 
-        String selectQuery = String.format("SELECT SUM(%s), CAST(strftime('%%d', %s) AS INTEGER) AS dayNumber, CAST(strftime('%%m', %s) AS INTEGER) AS monthNumber, CAST(strftime('%%Y', %s) AS INTEGER) AS yearNumber FROM %s i GROUP BY yearNumber, monthNumber, dayNumber", KEY_ITEM_VALUE, KEY_ITEM_TIMESTAMP, KEY_ITEM_TIMESTAMP, KEY_ITEM_TIMESTAMP, TABLE_ITEMS);
+        String selectQuery = String.format("SELECT SUM(%s), CAST(strftime('%%d', %s) AS INTEGER) AS dayNumber, CAST(strftime('%%m', %s) AS INTEGER) AS monthNumber, CAST(strftime('%%Y', %s) AS INTEGER) AS yearNumber FROM %s i %s GROUP BY yearNumber, monthNumber, dayNumber", KEY_ITEM_VALUE, KEY_ITEM_TIMESTAMP, KEY_ITEM_TIMESTAMP, KEY_ITEM_TIMESTAMP, TABLE_ITEMS, getThisMonthAndYearOnly ? String.format(" WHERE monthNumber = %d AND yearNumber = %d ", Calendar.getInstance().get(Calendar.MONTH) + 1, Calendar.getInstance().get(Calendar.YEAR)) : "");
+
+        System.out.println(selectQuery);
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
