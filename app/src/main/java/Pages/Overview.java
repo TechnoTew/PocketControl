@@ -41,33 +41,29 @@ public class Overview extends Fragment {
     private RecyclerView lastSpendingRecordsView;
 
     public Overview() {
-        // Required empty public constructor
+        super(R.layout.fragment_overview);
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onStart() {
+        super.onStart();
 
         sph = new SharedPreferenceHandler(this.getContext());
-        View view = inflater.inflate(R.layout.fragment_overview, container, false);
 
         // roll a chance from 1 to 10 to show an ad
         AdHandler adHandler = new AdHandler(this.getActivity());
         adHandler.showAdAtRandom(10);
 
-        TextView welcomeMessage = (TextView) view.findViewById(R.id.welcomeMessage);
+        TextView welcomeMessage = (TextView) this.getView().findViewById(R.id.welcomeMessage);
 
         welcomeMessage.setText(String.format("Hi, %s", sph.getUserName()));
 
         db = new DatabaseHandler(this.getContext());
 
         // initialize pie chart
-        chart = view.findViewById(R.id.pieChart);
+        chart = this.getView().findViewById(R.id.pieChart);
         this.renderPieChart(chart, db.getAllCategoriesWithItemTotals(true), 500);
 
-        generateUIForRecycleView(view, db.getAllItems(true, true));
-
-        return view;
+        generateUIForRecycleView(this.getView(), db.getAllItems(true, true));
     }
 
     public void generateUIForRecycleView(View view, ArrayList<Item> lastSpendingRecordItems) {
@@ -88,6 +84,7 @@ public class Overview extends Fragment {
     private void renderPieChart(PieChart pieChart, ArrayList<Category> categoriesWithItemTotals, int animationDurationMillis) {
         ArrayList<PieEntry> entries = new ArrayList<>();
 
+        // calculate the total amount spent
         double totalAmountSpent = categoriesWithItemTotals.stream().mapToDouble(category -> category.getTotalValueSpentInCategory()).sum();
 
         // adding the items with their categories as labels
